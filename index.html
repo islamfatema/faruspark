@@ -281,3 +281,228 @@
             font-weight: bold;
             color: #fff;
             margin-bottom: 12px;
+        }
+        
+        .price-amount {
+            font-size: 36px;
+            font-weight: bold;
+            color: #fbbf24;
+            margin-bottom: 8px;
+        }
+        
+        .price-card.cyan .price-amount {
+            color: #06b6d4;
+        }
+        
+        .price-period {
+            color: #10b981;
+            font-size: 12px;
+            margin-bottom: 24px;
+        }
+        
+        .price-list {
+            text-align: left;
+            margin-bottom: 24px;
+            font-size: 14px;
+        }
+        
+        .price-list li {
+            color: #fff;
+            margin-bottom: 8px;
+            list-style: none;
+        }
+        
+        .price-button {
+            width: 100%;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            color: #fff;
+        }
+        
+        .price-button.free {
+            background: #06b6d4;
+            color: #0f172a;
+        }
+        
+        .price-button.pro {
+            background: linear-gradient(90deg, #ec4899, #f43f5e);
+        }
+        
+        .footer {
+            background: linear-gradient(90deg, #0f172a, #4c1d95);
+            border-top: 3px solid #ec4899;
+            padding: 32px 20px;
+            text-align: center;
+            margin-top: 60px;
+        }
+        
+        .footer-text {
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        
+        .footer-subtext {
+            color: #999;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState } = React;
+
+        function FaruSpark() {
+            const [activeTab, setActiveTab] = useState('home');
+            const [isPro, setIsPro] = useState(false);
+
+            const HomeTab = () => (
+                <div className="home-section">
+                    <div className="container">
+                        <h1 className="home-title">Create Stunning Videos Instantly</h1>
+                        <p className="home-subtitle">AI-powered video editor for TikTok, Instagram, YouTube & Facebook</p>
+                        
+                        <div className="button-group">
+                            <button className="btn-primary" onClick={() => setActiveTab('editor')}>
+                                🎬 Start Editing
+                            </button>
+                            {!isPro && (
+                                <button className="btn-secondary" onClick={() => setActiveTab('pricing')}>
+                                    ⭐ Go Pro
+                                </button>
+                            )}
+                        </div>
+
+                        <div className="features-grid">
+                            <div className="feature-card cyan">
+                                <div className="feature-icon">🤖</div>
+                                <h3 className="feature-title">AI Subtitles</h3>
+                                <p className="feature-desc" style={{color: '#06b6d4'}}>Auto-generate subtitles</p>
+                            </div>
+                            <div className="feature-card pink">
+                                <div className="feature-icon">🎵</div>
+                                <h3 className="feature-title">Music Library</h3>
+                                <p className="feature-desc" style={{color: '#ec4899'}}>1000+ royalty-free tracks</p>
+                            </div>
+                            <div className="feature-card purple">
+                                <div className="feature-icon">🎨</div>
+                                <h3 className="feature-title">Templates</h3>
+                                <p className="feature-desc" style={{color: '#a855f7'}}>Platform-optimized layouts</p>
+                            </div>
+                            <div className="feature-card green">
+                                <div className="feature-icon">⚡</div>
+                                <h3 className="feature-title">Lightning Fast</h3>
+                                <p className="feature-desc" style={{color: '#10b981'}}>No lag editing</p>
+                            </div>
+                            <div className="feature-card" style={{borderColor: '#fbbf24', background: 'rgba(251, 191, 36, 0.1)'}}>
+                                <div className="feature-icon">📱</div>
+                                <h3 className="feature-title">All Platforms</h3>
+                                <p className="feature-desc" style={{color: '#fbbf24'}}>TikTok, Instagram, YouTube</p>
+                            </div>
+                            <div className="feature-card" style={{borderColor: '#3b82f6', background: 'rgba(59, 130, 246, 0.1)'}}>
+                                <div className="feature-icon">✂️</div>
+                                <h3 className="feature-title">Pro Effects</h3>
+                                <p className="feature-desc" style={{color: '#3b82f6'}}>20+ filters & effects</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+
+            const EditorTab = () => (
+                <div className="editor-section">
+                    <div className="container">
+                        <div className="upload-area">
+                            <label style={{cursor: 'pointer', display: 'block'}}>
+                                <div className="upload-icon">📹</div>
+                                <h2 className="upload-title">Upload Your Video</h2>
+                                <p className="upload-desc">Drag & drop or click to select (MP4, MOV, WebM, AVI)</p>
+                                <input type="file" accept="video/*" className="hidden-input" />
+                            </label>
+                        </div>
+                        <p style={{marginTop: '40px', color: '#06b6d4', textAlign: 'center'}}>Coming soon: Full video editing features!</p>
+                    </div>
+                </div>
+            );
+
+            const PricingTab = () => (
+                <div className="pricing-section">
+                    <div className="container">
+                        <h1 className="pricing-title">💰 Simple Pricing</h1>
+                        <p className="pricing-subtitle">Choose your plan</p>
+
+                        <div className="pricing-grid">
+                            <div className="price-card cyan">
+                                <h2 className="price-card-title">Free</h2>
+                                <div className="price-amount">$0<span style={{fontSize: '16px'}}>/mo</span></div>
+                                <ul className="price-list">
+                                    <li>✓ 5 videos/month</li>
+                                    <li>✓ 480p export</li>
+                                    <li>✓ Basic filters</li>
+                                    <li>✓ 30 free tracks</li>
+                                    <li>✗ Unlimited videos</li>
+                                </ul>
+                                <button className="price-button free">Get Started</button>
+                            </div>
+
+                            <div className="price-card pro">
+                                <div className="popular-badge">⭐ POPULAR</div>
+                                <h2 className="price-card-title">Pro</h2>
+                                <div className="price-amount">$2.99<span style={{fontSize: '16px'}}>/mo</span></div>
+                                <p className="price-period">or $19.99/year (save 33%)</p>
+                                <ul className="price-list">
+                                    <li>✓ Unlimited videos</li>
+                                    <li>✓ 1080p export</li>
+                                    <li>✓ 20+ filters</li>
+                                    <li>✓ Unlimited music</li>
+                                    <li>✓ Advanced effects</li>
+                                    <li>✓ No ads</li>
+                                </ul>
+                                <button className="price-button pro" onClick={() => {
+                                    setIsPro(true);
+                                    setActiveTab('home');
+                                }}>Start Free Trial</button>
+                            </div>
+                        </div>
+
+                        <p style={{color: '#10b981', marginTop: '40px', fontSize: '16px'}}>✨ 7-day free trial • Cancel anytime • No credit card required</p>
+                    </div>
+                </div>
+            );
+
+            return (
+                <div>
+                    <div className="navbar">
+                        <div className="navbar-content">
+                            <div className="navbar-title">✨ faruSpark</div>
+                            <div className="nav-buttons">
+                                <button className={`nav-button ${activeTab === 'home' ? 'active' : ''}`} onClick={() => setActiveTab('home')}>Home</button>
+                                <button className={`nav-button ${activeTab === 'editor' ? 'active' : ''}`} onClick={() => setActiveTab('editor')}>Editor</button>
+                                {!isPro && (
+                                    <button className="nav-button pro" onClick={() => setActiveTab('pricing')}>Go Pro</button>
+                                )}
+                                {isPro && <span style={{color: '#10b981', fontWeight: 'bold', fontSize: '13px'}}>⭐ Pro</span>}
+                            </div>
+                        </div>
+                    </div>
+
+                    {activeTab === 'home' && <HomeTab />}
+                    {activeTab === 'editor' && <EditorTab />}
+                    {activeTab === 'pricing' && <PricingTab />}
+
+                    <div className="footer">
+                        <p className="footer-text">Made with 💜 by faruSpark Team</p>
+                        <p className="footer-subtext">© 2024 faruSpark • Start earning from your creativity!</p>
+                    </div>
+                </div>
+            );
+        }
+
+        ReactDOM.render(<FaruSpark />, document.getElementById('root'));
+    </script>
+</body>
+</html>
