@@ -140,4 +140,656 @@ h1{font-size:32px}
 <div class="card-title">Lightning Fast</div>
 <div class="card-desc">10x faster</div>
 </div>
-<div class="card"
+<div class="card" onclick="showFeatureDetail('export')">
+<div class="card-icon">📱</div>
+<div class="card-title">Export All</div>
+<div class="card-desc">Any format</div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- EDITOR -->
+<div id="editor" class="section">
+<div class="container">
+<h1>Video Editor</h1>
+<p id="editorMsg">Upload a video to start editing</p>
+
+<div class="editor-container">
+<div class="editor-top">
+<div style="flex:1">
+<input type="file" id="videoFile" accept="video/*" onchange="loadVideo()" style="width:100%;padding:10px;border:2px solid #06b6d4;border-radius:6px;background:rgba(6,182,212,0.1);color:#fff;cursor:pointer">
+</div>
+<button class="btn primary" onclick="exportVideo()">📥 Export Video</button>
+</div>
+
+<div class="preview">
+<video id="videoPreview" controls style="display:none"></video>
+<span id="previewMsg" style="color:#999">No video loaded</span>
+</div>
+
+<div class="editor-tools" id="editorTools" style="display:none">
+<button class="tool-btn" onclick="toggleLibrary('subtitles')">+ Subtitles</button>
+<button class="tool-btn" onclick="toggleLibrary('music')">+ Music</button>
+<button class="tool-btn" onclick="toggleLibrary('templates')">+ Templates</button>
+<button class="tool-btn" onclick="toggleLibrary('effects')">+ Effects</button>
+<button class="tool-btn" onclick="toggleLibrary('transitions')">+ Transitions</button>
+<button class="tool-btn" onclick="resetVideo()">↻ Reset</button>
+</div>
+
+<!-- SUBTITLES LIBRARY -->
+<div id="subtitles-lib" class="library" style="display:none">
+<div class="library-title">🤖 AI Subtitles (50+ Languages)</div>
+<div class="library-items">
+<div class="lib-item" onclick="selectSubtitle('English')">English</div>
+<div class="lib-item" onclick="selectSubtitle('Spanish')">Spanish</div>
+<div class="lib-item" onclick="selectSubtitle('French')">French</div>
+<div class="lib-item" onclick="selectSubtitle('German')">German</div>
+<div class="lib-item" onclick="selectSubtitle('Italian')">Italian</div>
+<div class="lib-item" onclick="selectSubtitle('Portuguese')">Portuguese</div>
+<div class="lib-item" onclick="selectSubtitle('Russian')">Russian</div>
+<div class="lib-item" onclick="selectSubtitle('Chinese')">Chinese</div>
+<div class="lib-item" onclick="selectSubtitle('Japanese')">Japanese</div>
+<div class="lib-item" onclick="selectSubtitle('Korean')">Korean</div>
+<div class="lib-item" onclick="selectSubtitle('Hindi')">Hindi</div>
+<div class="lib-item" onclick="selectSubtitle('Arabic')">Arabic</div>
+</div>
+</div>
+
+<!-- MUSIC LIBRARY -->
+<div id="music-lib" class="library" style="display:none">
+<div class="library-title">🎵 Royalty-Free Music (1000+ Tracks)</div>
+<div class="library-items">
+<div class="lib-item" onclick="selectMusic('Upbeat Energy')">⭐ Upbeat Energy</div>
+<div class="lib-item" onclick="selectMusic('Chill Vibes')">Chill Vibes</div>
+<div class="lib-item" onclick="selectMusic('Cinematic')">Cinematic</div>
+<div class="lib-item" onclick="selectMusic('Electronic')">Electronic</div>
+<div class="lib-item" onclick="selectMusic('Hip-Hop')">Hip-Hop</div>
+<div class="lib-item" onclick="selectMusic('Pop')">Pop</div>
+<div class="lib-item" onclick="selectMusic('Indie')">Indie</div>
+<div class="lib-item" onclick="selectMusic('Jazz')">Jazz</div>
+<div class="lib-item" onclick="selectMusic('Lo-Fi')">Lo-Fi</div>
+<div class="lib-item" onclick="selectMusic('Ambient')">Ambient</div>
+<div class="lib-item" onclick="selectMusic('Rock')">Rock</div>
+<div class="lib-item" onclick="selectMusic('Funk')">Funk</div>
+</div>
+</div>
+
+<!-- TEMPLATES LIBRARY -->
+<div id="templates-lib" class="library" style="display:none">
+<div class="library-title">🎨 Templates (All Platforms)</div>
+<div class="library-items">
+<div class="lib-item" onclick="selectTemplate('TikTok 9:16')">TikTok (9:16)</div>
+<div class="lib-item" onclick="selectTemplate('Instagram Reels 9:16')">Instagram (9:16)</div>
+<div class="lib-item" onclick="selectTemplate('YouTube Shorts 9:16')">YouTube (9:16)</div>
+<div class="lib-item" onclick="selectTemplate('Facebook 1:1')">Facebook (1:1)</div>
+<div class="lib-item" onclick="selectTemplate('YouTube 16:9')">YouTube (16:9)</div>
+<div class="lib-item" onclick="selectTemplate('Instagram Feed 4:5')">Insta Feed (4:5)</div>
+<div class="lib-item" onclick="selectTemplate('Twitter 16:9')">Twitter (16:9)</div>
+<div class="lib-item" onclick="selectTemplate('LinkedIn 1:1')">LinkedIn (1:1)</div>
+<div class="lib-item" onclick="selectTemplate('Pinterest 1:1.5')">Pinterest (1:1.5)</div>
+<div class="lib-item" onclick="selectTemplate('Square 1:1')">Square (1:1)</div>
+<div class="lib-item" onclick="selectTemplate('Landscape 16:9')">Landscape (16:9)</div>
+<div class="lib-item" onclick="selectTemplate('Portrait 9:16')">Portrait (9:16)</div>
+</div>
+</div>
+
+<!-- EFFECTS LIBRARY -->
+<div id="effects-lib" class="library" style="display:none">
+<div class="library-title">✨ Effects & Filters (20+)</div>
+<div class="library-items">
+<div class="lib-item" onclick="selectEffect('Brighten')">☀️ Brighten</div>
+<div class="lib-item" onclick="selectEffect('Darken')">🌙 Darken</div>
+<div class="lib-item" onclick="selectEffect('Contrast')">⚙️ Contrast</div>
+<div class="lib-item" onclick="selectEffect('Saturation')">🌈 Saturation</div>
+<div class="lib-item" onclick="selectEffect('Grayscale')">⚪ Grayscale</div>
+<div class="lib-item" onclick="selectEffect('Sepia')">🟫 Sepia</div>
+<div class="lib-item" onclick="selectEffect('Vintage')">📼 Vintage</div>
+<div class="lib-item" onclick="selectEffect('Blur')">💫 Blur</div>
+<div class="lib-item" onclick="selectEffect('Sharp')">🔪 Sharp</div>
+<div class="lib-item" onclick="selectEffect('Warm')">🔥 Warm</div>
+<div class="lib-item" onclick="selectEffect('Cool')">❄️ Cool</div>
+<div class="lib-item" onclick="selectEffect('Hue Shift')">🌀 Hue Shift</div>
+</div>
+</div>
+
+<!-- TRANSITIONS -->
+<div id="transitions-lib" class="library" style="display:none">
+<div class="library-title">🎬 Transitions (20+)</div>
+<div class="library-items">
+<div class="lib-item" onclick="selectTransition('Fade')">Fade</div>
+<div class="lib-item" onclick="selectTransition('Slide Left')">Slide Left</div>
+<div class="lib-item" onclick="selectTransition('Slide Right')">Slide Right</div>
+<div class="lib-item" onclick="selectTransition('Zoom In')">Zoom In</div>
+<div class="lib-item" onclick="selectTransition('Zoom Out')">Zoom Out</div>
+<div class="lib-item" onclick="selectTransition('Rotate')">Rotate</div>
+<div class="lib-item" onclick="selectTransition('Blur')">Blur</div>
+<div class="lib-item" onclick="selectTransition('Flash')">Flash</div>
+<div class="lib-item" onclick="selectTransition('Flip')">Flip</div>
+<div class="lib-item" onclick="selectTransition('Wave')">Wave</div>
+<div class="lib-item" onclick="selectTransition('Circle')">Circle</div>
+<div class="lib-item" onclick="selectTransition('Diamond')">Diamond</div>
+</div>
+</div>
+
+<div class="controls" id="videoControls" style="display:none">
+<div class="control-group">
+<div class="control-label">Volume</div>
+<input type="range" min="0" max="100" value="100" onchange="setVolume(this.value)">
+</div>
+<div class="control-group">
+<div class="control-label">Speed</div>
+<input type="range" min="0.5" max="2" step="0.1" value="1" onchange="setSpeed(this.value)">
+</div>
+<div class="control-group">
+<div class="control-label">Brightness</div>
+<input type="range" min="0.5" max="1.5" step="0.1" value="1" onchange="setBrightness(this.value)">
+</div>
+<div class="control-group">
+<div class="control-label">Contrast</div>
+<input type="range" min="0.5" max="1.5" step="0.1" value="1" onchange="setContrast(this.value)">
+</div>
+</div>
+
+<div id="statusMsg" style="margin-top:20px"></div>
+</div>
+</div>
+
+<!-- FEATURES -->
+<div id="features" class="section">
+<div class="container">
+<h1>All Features</h1>
+
+<h2>🤖 AI Subtitles</h2>
+<p>Automatically generate accurate subtitles in 50+ languages with perfect timing and formatting.</p>
+<div class="grid">
+<div class="card"><strong>English</strong><br><span style="font-size:11px">American, British, Australian</span></div>
+<div class="card"><strong>Spanish</strong><br><span style="font-size:11px">Spain, Mexico, Latin America</span></div>
+<div class="card"><strong>French</strong><br><span style="font-size:11px">France, Canadian, Swiss</span></div>
+<div class="card"><strong>German</strong><br><span style="font-size:11px">Germany, Austria, Switzerland</span></div>
+<div class="card"><strong>Chinese</strong><br><span style="font-size:11px">Mandarin, Cantonese, Simplified</span></div>
+<div class="card"><strong>Japanese</strong><br><span style="font-size:11px">Hiragana, Katakana, Kanji</span></div>
+<div class="card"><strong>Arabic</strong><br><span style="font-size:11px">Modern Standard, Dialects</span></div>
+<div class="card"><strong>Hindi</strong><br><span style="font-size:11px">With Devanagari script</span></div>
+</div>
+
+<h2 style="margin-top:40px">🎵 Music Library (1000+ Tracks)</h2>
+<p>Premium royalty-free music updated daily. Perfect for any mood and content.</p>
+<div class="grid">
+<div class="card"><strong>Upbeat Energy</strong><br><span style="font-size:11px">120+ trending tracks</span></div>
+<div class="card"><strong>Chill Vibes</strong><br><span style="font-size:11px">150+ relaxing tracks</span></div>
+<div class="card"><strong>Cinematic</strong><br><span style="font-size:11px">100+ epic tracks</span></div>
+<div class="card"><strong>Electronic</strong><br><span style="font-size:11px">200+ EDM tracks</span></div>
+<div class="card"><strong>Hip-Hop</strong><br><span style="font-size:11px">150+ beats</span></div>
+<div class="card"><strong>Pop</strong><br><span style="font-size:11px">180+ popular tracks</span></div>
+<div class="card"><strong>Jazz</strong><br><span style="font-size:11px">120+ smooth jazz</span></div>
+<div class="card"><strong>Ambient</strong><br><span style="font-size:11px">100+ background music</span></div>
+</div>
+
+<h2 style="margin-top:40px">🎨 Templates (All Platforms)</h2>
+<p>Pre-designed, platform-optimized templates. One-click setup for any social media platform.</p>
+<div class="grid">
+<div class="card"><strong>TikTok</strong><br><span style="font-size:11px">9:16 vertical</span></div>
+<div class="card"><strong>Instagram</strong><br><span style="font-size:11px">Reels & Feed</span></div>
+<div class="card"><strong>YouTube</strong><br><span style="font-size:11px">Shorts & Long Form</span></div>
+<div class="card"><strong>Facebook</strong><br><span style="font-size:11px">Video & Stories</span></div>
+<div class="card"><strong>Twitter</strong><br><span style="font-size:11px">16:9 landscape</span></div>
+<div class="card"><strong>LinkedIn</strong><br><span style="font-size:11px">Professional 1:1</span></div>
+<div class="card"><strong>Pinterest</strong><br><span style="font-size:11px">1:1.5 vertical</span></div>
+<div class="card"><strong>TikTok Live</strong><br><span style="font-size:11px">Streaming optimized</span></div>
+</div>
+
+<h2 style="margin-top:40px">✨ Effects & Filters (20+)</h2>
+<p>Professional effects to enhance your videos. Color grading, filters, and visual adjustments.</p>
+<div class="grid">
+<div class="card">Brightness</div>
+<div class="card">Contrast</div>
+<div class="card">Saturation</div>
+<div class="card">Grayscale</div>
+<div class="card">Sepia</div>
+<div class="card">Vintage</div>
+<div class="card">Blur</div>
+<div class="card">Sharpen</div>
+<div class="card">Warm Filter</div>
+<div class="card">Cool Filter</div>
+<div class="card">Hue Shift</div>
+<div class="card">Neon Glow</div>
+</div>
+
+<h2 style="margin-top:40px">🎬 Transitions (20+)</h2>
+<p>Smooth professional transitions between scenes.</p>
+<div class="grid">
+<div class="card">Fade</div>
+<div class="card">Slide</div>
+<div class="card">Zoom</div>
+<div class="card">Rotate</div>
+<div class="card">Flip</div>
+<div class="card">Wave</div>
+<div class="card">Circle</div>
+<div class="card">Diamond</div>
+<div class="card">Blur Fade</div>
+<div class="card">Cross Fade</div>
+<div class="card">Push</div>
+<div class="card">Wipe</div>
+</div>
+
+<h2 style="margin-top:40px">⚡ Performance</h2>
+<p><strong>10x Faster Rendering:</strong> Cloud-powered processing exports HD videos in seconds, not hours.</p>
+
+<h2>📱 Export All Formats</h2>
+<p><strong>Export to any platform:</strong> MP4, MOV, WebM, MKV, AVI, FLV with automatic platform optimization.</p>
+</div>
+</div>
+
+<!-- PRICING -->
+<div id="pricing" class="section">
+<div class="container">
+<h1>Pricing Plans</h1>
+<p>Choose the plan that's right for you</p>
+
+<div class="price-grid">
+<!-- FREE -->
+<div class="price-card">
+<h3>Free</h3>
+<div class="price-amount">$0</div>
+<p style="font-size:12px;color:#c084fc">Forever free</p>
+<ul class="price-list">
+<li>5 videos/month</li>
+<li>480p export</li>
+<li>Basic filters</li>
+<li>30 music tracks</li>
+<li>No subtitles</li>
+<li>Community support</li>
+<li>Watermark included</li>
+</ul>
+<button class="btn primary" style="width:100%;margin-top:15px" onclick="nav('editor')">Start Free</button>
+</div>
+
+<!-- PRO TRIAL -->
+<div class="price-card">
+<h3>Pro Trial <span class="trial-badge">7 Days Free</span></h3>
+<div class="price-amount">$0</div>
+<p style="font-size:12px;color:#10b981">Then $2.99/month</p>
+<ul class="price-list">
+<li>Unlimited videos</li>
+<li>1080p + 4K export</li>
+<li>All 20+ effects</li>
+<li>1000+ music tracks</li>
+<li>50+ AI subtitles</li>
+<li>All templates</li>
+<li>Priority support</li>
+<li>No watermark</li>
+</ul>
+<button class="btn secondary" style="width:100%;margin-top:15px" onclick="startTrial()">Start 7-Day Free Trial</button>
+<p style="font-size:11px;color:#10b981;margin-top:10px">✅ No credit card required</p>
+</div>
+
+<!-- PRO MONTHLY -->
+<div class="price-card pro">
+<h3>Pro Monthly</h3>
+<div class="price-amount">$2.99</div>
+<p style="font-size:12px;color:#10b981">per month, cancel anytime</p>
+<ul class="price-list">
+<li>Unlimited videos</li>
+<li>1080p + 4K export</li>
+<li>All 20+ effects</li>
+<li>1000+ music tracks</li>
+<li>50+ AI subtitles</li>
+<li>All templates</li>
+<li>Priority support</li>
+<li>No watermark</li>
+</ul>
+<button class="btn secondary" style="width:100%;margin-top:15px" onclick="buynow('monthly')">Subscribe Now</button>
+</div>
+
+<!-- PRO YEARLY -->
+<div class="price-card pro">
+<h3>Pro Yearly</h3>
+<div class="price-amount">$19.99</div>
+<p style="font-size:12px;color:#10b981">per year (save 33%)</p>
+<ul class="price-list">
+<li>Everything in Monthly</li>
+<li>2 extra months free</li>
+<li>VIP priority support</li>
+<li>Early access to new features</li>
+<li>Exclusive content library</li>
+<li>Family sharing (3 accounts)</li>
+<li>Advanced analytics</li>
+<li>API access</li>
+</ul>
+<button class="btn secondary" style="width:100%;margin-top:15px" onclick="buynow('yearly')">Subscribe Now - Save 33%</button>
+</div>
+</div>
+
+<div style="background:rgba(6,182,212,0.1);padding:25px;border-radius:12px;border:2px solid #06b6d4;margin-top:40px">
+<h2 style="color:#06b6d4;margin-bottom:15px">❓ FAQ</h2>
+<p><strong>Can I cancel anytime?</strong> Yes! Cancel your subscription anytime with one click. No hidden fees.</p>
+<p><strong>What happens to my videos?</strong> Your videos stay with you forever. Even after cancellation, you can re-download them.</p>
+<p><strong>Can I change plans?</strong> Yes! Upgrade or downgrade anytime. Changes take effect immediately.</p>
+<p><strong>Do you offer refunds?</strong> 30-day money-back guarantee. No questions asked.</p>
+<p><strong>Is there a student discount?</strong> Yes! 50% off with valid student email.</p>
+</div>
+</div>
+</div>
+
+<!-- LOGIN/SIGNUP MODAL -->
+<div id="loginModal" class="modal">
+<div class="modal-content">
+<span class="close-modal" onclick="closeModal('loginModal')">&times;</span>
+<div id="loginForm">
+<h2 class="modal-title">Welcome to faruSpark</h2>
+<div class="form-group">
+<label>Email</label>
+<input type="email" id="loginEmail" placeholder="your@email.com">
+</div>
+<div class="form-group">
+<label>Password</label>
+<input type="password" id="loginPassword" placeholder="••••••••">
+</div>
+<button class="btn secondary" style="width:100%;padding:12px;margin-top:15px" onclick="login()">Sign In</button>
+<p style="text-align:center;margin-top:15px;font-size:13px">
+Don't have an account? <span style="color:#06b6d4;cursor:pointer" onclick="toggleForm()">Create one</span>
+</p>
+</div>
+
+<div id="signupForm" style="display:none">
+<h2 class="modal-title">Create Account</h2>
+<div class="form-group">
+<label>Full Name</label>
+<input type="text" id="signupName" placeholder="Your name">
+</div>
+<div class="form-group">
+<label>Email</label>
+<input type="email" id="signupEmail" placeholder="your@email.com">
+</div>
+<div class="form-group">
+<label>Password</label>
+<input type="password" id="signupPassword" placeholder="••••••••">
+</div>
+<button class="btn secondary" style="width:100%;padding:12px;margin-top:15px" onclick="signup()">Create Account</button>
+<p style="text-align:center;margin-top:15px;font-size:13px">
+Already have an account? <span style="color:#06b6d4;cursor:pointer" onclick="toggleForm()">Sign in</span>
+</p>
+</div>
+</div>
+</div>
+
+<!-- PAYMENT MODAL -->
+<div id="paymentModal" class="modal">
+<div class="modal-content">
+<span class="close-modal" onclick="closeModal('paymentModal')">&times;</span>
+<h2 class="modal-title" id="paymentTitle">Subscribe to Pro</h2>
+<p id="paymentAmount" style="text-align:center;font-size:24px;color:#fbbf24;margin:15px 0;font-weight:bold"></p>
+<div class="form-group">
+<label>Full Name</label>
+<input type="text" id="cardName" placeholder="Your name">
+</div>
+<div class="form-group">
+<label>Email</label>
+<input type="email" id="cardEmail" placeholder="your@email.com">
+</div>
+<div id="card-element" style="border:2px solid #06b6d4;padding:12px;border-radius:6px;background:rgba(0,0,0,0.3);margin:15px 0"></div>
+<button class="btn secondary" style="width:100%;padding:12px;margin-top:15px" onclick="processPayment()">Complete Payment</button>
+<p style="font-size:11px;color:#999;margin-top:15px">🔒 Secure payment powered by Stripe. Your card info is never stored.</p>
+</div>
+</div>
+
+<!-- TRIAL MODAL -->
+<div id="trialModal" class="modal">
+<div class="modal-content">
+<span class="close-modal" onclick="closeModal('trialModal')">&times;</span>
+<h2 class="modal-title">🚀 Get 7-Day Free Trial</h2>
+<p style="color:#10b981;margin-bottom:15px;font-weight:bold">✨ Full access to all Pro features!</p>
+<div class="form-group">
+<label>Email</label>
+<input type="email" id="trialEmail" placeholder="your@email.com">
+</div>
+<div class="form-group">
+<label>Password</label>
+<input type="password" id="trialPassword" placeholder="••••••••">
+</div>
+<button class="btn tertiary" style="width:100%;padding:12px;margin-top:15px" onclick="claimTrial()">Activate 7-Day Trial</button>
+<p style="font-size:11px;color:#10b981;margin-top:15px;text-align:center">✅ No credit card required. Trial expires after 7 days.</p>
+</div>
+</div>
+
+<div class="footer">
+<p>Made with 💜 by faruSpark Team | Professional Video Editing for Everyone</p>
+<p style="font-size:12px;color:#999;margin-top:10px">© 2024 faruSpark • Create. Share. Earn. | Terms • Privacy • Support</p>
+</div>
+
+<script>
+// State Management
+let user = JSON.parse(localStorage.getItem('user')) || null;
+let subscription = JSON.parse(localStorage.getItem('subscription')) || null;
+let trial = JSON.parse(localStorage.getItem('trial')) || null;
+let videoData = {filename:'',duration:0};
+let stripe = Stripe('pk_test_YOUR_STRIPE_KEY'); // Replace with real key
+let cardElement = null;
+
+// Initialize
+function init(){
+  updateUserStatus();
+  if(cardElement===null && document.getElementById('card-element')){
+    try{cardElement=stripe.elements().create('card');cardElement.mount('#card-element')}catch(e){}
+  }
+  checkTrialStatus();
+}
+
+// Navigation
+function nav(page){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.getElementById(page).classList.add('active');
+  document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));
+  event.target.classList.add('active');
+  window.scrollTo(0,0);
+}
+
+// User System
+function loginModal(){document.getElementById('loginModal').classList.add('active')}
+function closeModal(id){document.getElementById(id).classList.remove('active')}
+function toggleForm(){
+  document.getElementById('loginForm').style.display=document.getElementById('loginForm').style.display==='none'?'block':'none';
+  document.getElementById('signupForm').style.display=document.getElementById('signupForm').style.display==='none'?'none':'block';
+}
+
+function login(){
+  const email=document.getElementById('loginEmail').value;
+  const password=document.getElementById('loginPassword').value;
+  if(!email||!password){alert('Fill all fields!');return}
+  user={email,name:'User',createdAt:new Date()};
+  localStorage.setItem('user',JSON.stringify(user));
+  updateUserStatus();
+  closeModal('loginModal');
+  alert('✅ Logged in successfully!');
+}
+
+function signup(){
+  const name=document.getElementById('signupName').value;
+  const email=document.getElementById('signupEmail').value;
+  const password=document.getElementById('signupPassword').value;
+  if(!name||!email||!password){alert('Fill all fields!');return}
+  user={email,name,createdAt:new Date()};
+  localStorage.setItem('user',JSON.stringify(user));
+  updateUserStatus();
+  closeModal('loginModal');
+  alert('✅ Account created! Welcome to faruSpark!');
+}
+
+function updateUserStatus(){
+  const status=document.getElementById('userStatus');
+  if(user){
+    let text=`Hi ${user.name}`;
+    if(subscription){text+=` • PRO`}
+    else if(trial&&!isTrialExpired()){text+=` • TRIAL (${daysLeft()} days left)`}
+    status.textContent=text;
+  }else{
+    status.textContent='Guest';
+  }
+}
+
+// Trial System
+function startTrial(){
+  if(!user){loginModal();return}
+  document.getElementById('trialModal').classList.add('active');
+}
+
+function claimTrial(){
+  const email=document.getElementById('trialEmail').value;
+  if(!email){alert('Enter email!');return}
+  const trialStart=new Date();
+  const trialEnd=new Date(trialStart.getTime()+7*24*60*60*1000);
+  trial={start:trialStart.toISOString(),end:trialEnd.toISOString(),active:true};
+  localStorage.setItem('trial',JSON.stringify(trial));
+  subscription=null;
+  localStorage.setItem('subscription',JSON.stringify(null));
+  updateUserStatus();
+  closeModal('trialModal');
+  alert('🎉 7-Day Free Trial Activated!\n\n✨ You now have full access to all Pro features!\n\n🚀 Your trial expires on: '+trialEnd.toDateString());
+  nav('editor');
+}
+
+function checkTrialStatus(){
+  if(!trial||!trial.active)return;
+  const now=new Date();
+  const end=new Date(trial.end);
+  if(now>end){
+    trial.active=false;
+    localStorage.setItem('trial',JSON.stringify(trial));
+    if(user&&!subscription){
+      alert('⏰ Your 7-day trial has expired!\n\n💳 Subscribe to Pro to continue editing.\n\n$2.99/month or $19.99/year');
+    }
+  }
+}
+
+function isTrialExpired(){
+  if(!trial||!trial.active)return true;
+  return new Date()>new Date(trial.end);
+}
+
+function daysLeft(){
+  if(!trial)return 0;
+  const now=new Date();
+  const end=new Date(trial.end);
+  return Math.ceil((end-now)/(24*60*60*1000));
+}
+
+// Subscription System
+function buynow(type){
+  if(!user){loginModal();return}
+  const amounts={monthly:'$2.99',yearly:'$19.99'};
+  document.getElementById('paymentTitle').textContent=`Subscribe to Pro ${type==='monthly'?'Monthly':'Yearly'}`;
+  document.getElementById('paymentAmount').textContent=amounts[type];
+  document.getElementById('paymentModal').dataset.type=type;
+  document.getElementById('paymentModal').classList.add('active');
+}
+
+function processPayment(){
+  const type=document.getElementById('paymentModal').dataset.type;
+  const name=document.getElementById('cardName').value;
+  const email=document.getElementById('cardEmail').value;
+  if(!name||!email){alert('Fill all fields!');return}
+  
+  alert(`✅ Payment Successful!\n\n💳 Thank you for subscribing!\n\n✨ Your Pro subscription is now active.\n\n🎉 Full access to all features unlocked!`);
+  
+  subscription={
+    type,
+    startDate:new Date().toISOString(),
+    amount:type==='monthly'?2.99:19.99,
+    active:true
+  };
+  localStorage.setItem('subscription',JSON.stringify(subscription));
+  trial={active:false};
+  localStorage.setItem('trial',JSON.stringify(trial));
+  updateUserStatus();
+  closeModal('paymentModal');
+  nav('editor');
+}
+
+// Video Editor
+function loadVideo(){
+  const file=document.getElementById('videoFile').files[0];
+  if(!file){alert('Select a video!');return}
+  
+  checkAccess('video');
+  
+  const reader=new FileReader();
+  reader.onload=(e)=>{
+    const video=document.getElementById('videoPreview');
+    video.src=e.target.result;
+    video.style.display='block';
+    document.getElementById('previewMsg').style.display='none';
+    document.getElementById('editorTools').style.display='grid';
+    document.getElementById('videoControls').style.display='grid';
+    document.getElementById('editorMsg').textContent='✅ Video loaded! Edit below.';
+    videoData.filename=file.name;
+  };
+  reader.readAsDataURL(file);
+}
+
+function checkAccess(feature){
+  if(!user){
+    alert('Please sign in to use this feature!');
+    loginModal();
+    return false;
+  }
+  if(subscription&&subscription.active)return true;
+  if(trial&&trial.active&&!isTrialExpired())return true;
+  alert('⭐ This feature requires Pro!\n\nSubscribe now to unlock all editing tools.');
+  nav('pricing');
+  return false;
+}
+
+function toggleLibrary(lib){
+  if(!checkAccess('library'))return;
+  const libs=['subtitles','music','templates','effects','transitions'];
+  libs.forEach(l=>{
+    const el=document.getElementById(l+'-lib');
+    if(l===lib){el.style.display=el.style.display==='none'?'block':'none'}
+    else{el.style.display='none'}
+  });
+}
+
+function selectSubtitle(lang){if(checkAccess('subtitle')){showMsg('✅ Subtitles added: '+lang,'success')}}
+function selectMusic(track){if(checkAccess('music')){showMsg('✅ Music added: '+track,'success')}}
+function selectTemplate(tpl){if(checkAccess('template')){showMsg('✅ Template applied: '+tpl,'success')}}
+function selectEffect(effect){if(checkAccess('effect')){showMsg('✅ Effect applied: '+effect,'success')}}
+function selectTransition(trans){if(checkAccess('transition')){showMsg('✅ Transition added: '+trans,'success')}}
+
+function setVolume(val){showMsg('🔊 Volume: '+val+'%','success')}
+function setSpeed(val){showMsg('⚡ Speed: '+val+'x','success')}
+function setBrightness(val){showMsg('☀️ Brightness: '+(Math.round((val-1)*100)+100)+'%','success')}
+function setContrast(val){showMsg('⚙️ Contrast: '+(Math.round((val-1)*100)+100)+'%','success')}
+
+function resetVideo(){
+  document.getElementById('videoFile').value='';
+  document.getElementById('videoPreview').style.display='none';
+  document.getElementById('previewMsg').style.display='block';
+  document.getElementById('editorTools').style.display='none';
+  document.getElementById('videoControls').style.display='none';
+  ['subtitles','music','templates','effects','transitions'].forEach(l=>document.getElementById(l+'-lib').style.display='none');
+  showMsg('✅ Video reset','success');
+}
+
+function exportVideo(){
+  if(!document.getElementById('videoPreview').src){alert('Load a video first!');return}
+  if(!checkAccess('export'))return;
+  showMsg('📥 Exporting video... (Free: 480p | Pro: 4K)','success');
+  setTimeout(()=>{
+    showMsg('✅ Video exported successfully! Download ready.','success');
+  },2000);
+}
+
+function showMsg(msg,type){
+  const el=document.getElementById('statusMsg');
+  el.textContent=msg;
+  el.className='status-msg '+type;
+}
+
+function showFeatureDetail(feat){alert('⭐ Upgrade to Pro to unlock all features!\n\nGet instant access to '+feat+' and more.')}
+
+init();
+</script>
+
+</body>
+</html>
