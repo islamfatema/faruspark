@@ -23,6 +23,9 @@
             border-bottom: 3px solid #06b6d4;
             padding: 1.5rem;
             box-shadow: 0 4px 20px rgba(168, 85, 247, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
         
         .navbar-content {
@@ -41,11 +44,44 @@
             -webkit-text-fill-color: transparent;
         }
         
+        .nav-buttons {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .nav-btn {
+            background: none;
+            border: none;
+            color: #fff;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .nav-btn.active {
+            color: #06b6d4;
+        }
+        
+        .nav-btn.pro {
+            background: linear-gradient(90deg, #ec4899, #f43f5e);
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+        
         .container {
             max-width: 1000px;
-            margin: 60px auto;
+            margin: 0 auto;
             padding: 40px 20px;
             text-align: center;
+        }
+        
+        .section {
+            display: none;
+        }
+        
+        .section.active {
+            display: block;
         }
         
         .title {
@@ -182,6 +218,26 @@
             list-style: none;
         }
         
+        .editor-section {
+            background: linear-gradient(135deg, #0f172a, #4c1d95, #0f172a);
+            min-height: 60vh;
+            padding: 40px;
+            border-radius: 20px;
+        }
+        
+        .upload-area {
+            background: linear-gradient(135deg, #6f21a8, #a855f7);
+            border: 4px dashed #06b6d4;
+            padding: 60px;
+            border-radius: 20px;
+            text-align: center;
+        }
+        
+        .upload-icon {
+            font-size: 60px;
+            margin-bottom: 20px;
+        }
+        
         .footer {
             background: linear-gradient(90deg, #0f172a, #4c1d95);
             border-top: 3px solid #ec4899;
@@ -195,68 +251,100 @@
     <div class="navbar">
         <div class="navbar-content">
             <div class="navbar-title">✨ faruSpark</div>
+            <div class="nav-buttons">
+                <button class="nav-btn active" onclick="showSection('home')">Home</button>
+                <button class="nav-btn" onclick="showSection('editor')">Editor</button>
+                <button class="nav-btn pro" onclick="showSection('pricing')">Go Pro</button>
+            </div>
         </div>
     </div>
     
-    <div class="container">
-        <h1 class="title">Create Stunning Videos Instantly</h1>
-        <p class="subtitle">AI-powered video editor for TikTok, Instagram, YouTube & Facebook</p>
-        
-        <div class="button-group">
-            <button class="btn btn-primary">🎬 Start Editing</button>
-            <button class="btn btn-secondary">⭐ Go Pro</button>
-        </div>
-        
-        <div class="features">
-            <div class="feature-card cyan">
-                <div class="feature-icon">🤖</div>
-                <h3 class="feature-title">AI Subtitles</h3>
-                <p class="feature-desc">Auto-generate subtitles</p>
-            </div>
-            <div class="feature-card pink">
-                <div class="feature-icon">🎵</div>
-                <h3 class="feature-title">Music Library</h3>
-                <p class="feature-desc">1000+ royalty-free tracks</p>
-            </div>
-            <div class="feature-card cyan">
-                <div class="feature-icon">🎨</div>
-                <h3 class="feature-title">Templates</h3>
-                <p class="feature-desc">Platform-optimized</p>
-            </div>
-            <div class="feature-card pink">
-                <div class="feature-icon">⚡</div>
-                <h3 class="feature-title">Lightning Fast</h3>
-                <p class="feature-desc">No lag editing</p>
-            </div>
-        </div>
-        
-        <h2 style="font-size: 40px; margin: 60px 0 30px;">💰 Simple Pricing</h2>
-        
-        <div class="pricing">
-            <div class="price-card cyan">
-                <h2>Free</h2>
-                <div class="price">$0/mo</div>
-                <ul class="price-list">
-                    <li>✓ 5 videos/month</li>
-                    <li>✓ 480p export</li>
-                    <li>✓ Basic filters</li>
-                    <li>✓ 30 free tracks</li>
-                </ul>
-                <button class="btn btn-primary" style="width: 100%; margin-top: 20px;">Get Started</button>
+    <!-- HOME SECTION -->
+    <div id="home" class="section active">
+        <div class="container">
+            <h1 class="title">Create Stunning Videos Instantly</h1>
+            <p class="subtitle">AI-powered video editor for TikTok, Instagram, YouTube & Facebook</p>
+            
+            <div class="button-group">
+                <button class="btn btn-primary" onclick="showSection('editor')">🎬 Start Editing</button>
+                <button class="btn btn-secondary" onclick="showSection('pricing')">⭐ Go Pro</button>
             </div>
             
-            <div class="price-card pro">
-                <h2>Pro ⭐ POPULAR</h2>
-                <div class="price">$2.99/mo</div>
-                <ul class="price-list">
-                    <li>✓ Unlimited videos</li>
-                    <li>✓ 1080p export</li>
-                    <li>✓ 20+ filters</li>
-                    <li>✓ Unlimited music</li>
-                    <li>✓ No ads</li>
-                </ul>
-                <button class="btn btn-secondary" style="width: 100%; margin-top: 20px;">Start Free Trial</button>
+            <div class="features">
+                <div class="feature-card cyan">
+                    <div class="feature-icon">🤖</div>
+                    <h3 class="feature-title">AI Subtitles</h3>
+                    <p class="feature-desc">Auto-generate subtitles</p>
+                </div>
+                <div class="feature-card pink">
+                    <div class="feature-icon">🎵</div>
+                    <h3 class="feature-title">Music Library</h3>
+                    <p class="feature-desc">1000+ royalty-free tracks</p>
+                </div>
+                <div class="feature-card cyan">
+                    <div class="feature-icon">🎨</div>
+                    <h3 class="feature-title">Templates</h3>
+                    <p class="feature-desc">Platform-optimized</p>
+                </div>
+                <div class="feature-card pink">
+                    <div class="feature-icon">⚡</div>
+                    <h3 class="feature-title">Lightning Fast</h3>
+                    <p class="feature-desc">No lag editing</p>
+                </div>
             </div>
+        </div>
+    </div>
+    
+    <!-- EDITOR SECTION -->
+    <div id="editor" class="section">
+        <div class="container">
+            <h1 class="title">Video Editor</h1>
+            <div class="editor-section">
+                <div class="upload-area">
+                    <div class="upload-icon">📹</div>
+                    <h2 style="margin: 20px 0;">Upload Your Video</h2>
+                    <p style="color: #06b6d4;">Drag & drop or click to select (MP4, MOV, WebM)</p>
+                    <button class="btn btn-primary" style="margin-top: 20px;">Choose File</button>
+                </div>
+                <p style="color: #06b6d4; margin-top: 40px;">Coming soon: Full video editing features!</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- PRICING SECTION -->
+    <div id="pricing" class="section">
+        <div class="container">
+            <h1 class="title">💰 Simple Pricing</h1>
+            <p class="subtitle">Choose your plan</p>
+            
+            <div class="pricing">
+                <div class="price-card cyan">
+                    <h2>Free</h2>
+                    <div class="price">$0/mo</div>
+                    <ul class="price-list">
+                        <li>✓ 5 videos/month</li>
+                        <li>✓ 480p export</li>
+                        <li>✓ Basic filters</li>
+                        <li>✓ 30 free tracks</li>
+                    </ul>
+                    <button class="btn btn-primary" style="width: 100%; margin-top: 20px;">Get Started</button>
+                </div>
+                
+                <div class="price-card pro">
+                    <h2>Pro ⭐ POPULAR</h2>
+                    <div class="price">$2.99/mo</div>
+                    <ul class="price-list">
+                        <li>✓ Unlimited videos</li>
+                        <li>✓ 1080p export</li>
+                        <li>✓ 20+ filters</li>
+                        <li>✓ Unlimited music</li>
+                        <li>✓ No ads</li>
+                    </ul>
+                    <button class="btn btn-secondary" style="width: 100%; margin-top: 20px;">Start Free Trial</button>
+                </div>
+            </div>
+            
+            <p style="color: #10b981; margin-top: 40px; font-size: 16px;">✨ 7-day free trial • Cancel anytime • No credit card required</p>
         </div>
     </div>
     
@@ -264,5 +352,26 @@
         <p>Made with 💜 by faruSpark Team</p>
         <p style="color: #999; font-size: 12px; margin-top: 8px;">© 2024 faruSpark • Start earning from your creativity!</p>
     </div>
+    
+    <script>
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Show selected section
+            document.getElementById(sectionId).classList.add('active');
+            
+            // Update nav buttons
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+    </script>
 </body>
 </html>
