@@ -2,794 +2,680 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>faruSpark - Professional Video Editor</title>
-<script src="https://js.stripe.com/v3/"></script>
+<title>CineMaster Pro - Photo & Video Editor</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:sans-serif;background:linear-gradient(135deg,#0f172a,#6f21a8);color:#fff;min-height:100vh}
-.navbar{background:linear-gradient(90deg,#1e293b,#6f21a8);border-bottom:3px solid #06b6d4;padding:15px 20px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:500}
-.logo{font-size:22px;font-weight:bold;color:#06b6d4}
-.nav{display:flex;gap:10px;align-items:center}
-.nav button{background:none;border:none;color:#fff;cursor:pointer;padding:8px 12px;border-radius:6px;font-weight:500;font-size:13px}
-.nav button:hover{color:#06b6d4}
-.nav button.active{background:rgba(6,182,212,0.3);color:#06b6d4}
-.pro-btn{background:linear-gradient(90deg,#ec4899,#f43f5e)!important;color:#fff!important}
-.user-info{color:#06b6d4;font-size:12px}
-.container{max-width:1400px;margin:0 auto;padding:20px}
-.section{display:none}
-.section.active{display:block}
-h1{font-size:44px;color:#06b6d4;margin:20px 0;text-align:center}
-h2{font-size:28px;color:#06b6d4;margin:20px 0}
-p{color:#c084fc;margin:10px 0}
-.btns{display:flex;gap:12px;justify-content:center;margin:30px 0;flex-wrap:wrap}
-.btn{padding:12px 24px;border:none;border-radius:8px;font-weight:bold;cursor:pointer;font-size:14px;transition:0.3s}
-.btn:hover{transform:scale(1.05)}
-.primary{background:linear-gradient(90deg,#06b6d4,#00d9ff);color:#0f172a}
-.secondary{background:linear-gradient(90deg,#a855f7,#ec4899);color:#fff}
-.tertiary{background:linear-gradient(90deg,#10b981,#14b8a6);color:#fff}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:15px;margin:30px 0}
-.card{border:2px solid #06b6d4;padding:20px;border-radius:12px;background:rgba(6,182,212,0.1);cursor:pointer;text-align:center;transition:0.3s}
-.card:hover{transform:scale(1.08);border-color:#ec4899;background:rgba(236,72,153,0.1)}
-.card-icon{font-size:40px;margin:10px 0}
-.card-title{font-size:16px;font-weight:bold;color:#06b6d4}
-.card-desc{font-size:12px;color:#c084fc}
-.editor-container{background:linear-gradient(135deg,#1e293b,#4c1d95);padding:20px;border-radius:12px;border:2px solid #06b6d4;margin:20px 0}
-.editor-top{display:flex;gap:15px;margin-bottom:20px}
-.editor-tools{flex:1;display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:10px}
-.tool-btn{background:rgba(6,182,212,0.2);border:1px solid #06b6d4;color:#06b6d4;padding:10px;border-radius:6px;cursor:pointer;font-weight:500;font-size:13px}
-.tool-btn:hover{background:rgba(6,182,212,0.4)}
-.preview{width:100%;height:400px;background:#000;border:2px solid #06b6d4;border-radius:8px;margin:20px 0;display:flex;align-items:center;justify-content:center}
-video{max-width:100%;max-height:100%;border-radius:8px}
-.controls{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:20px 0}
-.control-group{background:rgba(6,182,212,0.1);padding:12px;border-radius:8px;border:1px solid #06b6d4}
-.control-label{font-size:12px;color:#c084fc;margin-bottom:5px}
-input[type="range"]{width:100%;cursor:pointer}
-.library{background:rgba(6,182,212,0.1);padding:15px;border-radius:8px;border:2px dashed #06b6d4;margin:15px 0}
-.library-title{color:#06b6d4;font-weight:bold;margin-bottom:10px;font-size:14px}
-.library-items{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;max-height:300px;overflow-y:auto}
-.lib-item{background:rgba(6,182,212,0.2);padding:10px;border-radius:6px;cursor:pointer;text-align:center;border:1px solid #06b6d4;font-size:12px;transition:0.2s}
-.lib-item:hover{background:rgba(236,72,153,0.3);border-color:#ec4899}
-.locked{opacity:0.5;cursor:not-allowed}
-.lock-icon{font-size:20px;margin:10px 0;color:#ec4899}
-.modal{display:none;position:fixed;z-index:1000;left:0;top:0;width:100%;height:100%;background:rgba(0,0,0,0.8);justify-content:center;align-items:center;overflow-y:auto}
-.modal.active{display:flex}
-.modal-content{background:linear-gradient(135deg,#1e293b,#4c1d95);padding:30px;border-radius:12px;max-width:500px;width:90%;border:2px solid #06b6d4;max-height:90vh;overflow-y:auto}
-.modal-title{font-size:24px;color:#06b6d4;margin-bottom:20px;font-weight:bold}
-.form-group{margin-bottom:15px}
-.form-group label{display:block;margin-bottom:5px;color:#c084fc;font-weight:500;font-size:13px}
-.form-group input{width:100%;padding:10px;border:2px solid #06b6d4;border-radius:6px;background:rgba(0,0,0,0.3);color:#fff;font-size:13px}
-.form-group input::placeholder{color:#999}
-.form-group input:focus{outline:none;border-color:#ec4899}
-.price-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;margin:30px 0}
-.price-card{border:3px solid #06b6d4;padding:25px;border-radius:12px;background:linear-gradient(135deg,#1e3a1f,#134e4a);text-align:center}
-.price-card.pro{background:linear-gradient(135deg,#7c2d12,#5b21b6);border-color:#ec4899;transform:scale(1.05)}
-.price-card h3{font-size:24px;margin:10px 0}
-.price-amount{font-size:36px;font-weight:bold;color:#fbbf24;margin:15px 0}
-.price-card.pro .price-amount{color:#06b6d4}
-.price-list{text-align:left;list-style:none;margin:15px 0;font-size:13px}
-.price-list li{padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.1)}
-.price-list li:before{content:'✓ ';color:#10b981;margin-right:8px}
-.trial-badge{background:#10b981;color:#fff;padding:8px 12px;border-radius:6px;font-size:11px;font-weight:bold}
-.footer{background:linear-gradient(90deg,#0f172a,#4c1d95);border-top:3px solid #ec4899;padding:30px 20px;text-align:center;margin-top:60px}
-.status-msg{padding:15px;border-radius:8px;margin:15px 0;text-align:center;font-weight:bold}
+*{box-sizing:border-box}
+body{font-family:Arial;margin:0;padding:20px;background:#1a1a2e;color:#fff}
+.header{background:#0f3460;padding:15px;border-radius:8px;margin-bottom:20px;border:2px solid #00d4ff}
+h1{margin:0;color:#00d4ff}
+.container{max-width:1300px;margin:0 auto;background:#16213e;padding:20px;border-radius:8px;border:2px solid #00d4ff}
+input[type="file"]{padding:10px;background:#0f3460;color:#00d4ff;border:2px solid #00d4ff;border-radius:6px;cursor:pointer}
+button{padding:10px 18px;background:#00d4ff;color:#000;border:none;border-radius:6px;cursor:pointer;font-weight:bold;margin:4px;font-size:13px}
+button:hover{background:#00e6ff}
+.tool-btn{padding:8px;background:#0f3460;color:#00d4ff;border:2px solid #00d4ff;border-radius:6px;cursor:pointer;font-weight:bold;font-size:11px}
+.tool-btn.selected{background:#00d4ff;color:#000}
+.tools{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:10px 0}
+.editor-row{display:flex;gap:20px;flex-wrap:wrap;margin-top:15px}
+.canvas-wrap{position:relative;background:#000;border:2px solid #00d4ff;overflow:visible;flex-shrink:0}
+.overlay-el{position:absolute;cursor:move;user-select:none;white-space:nowrap;touch-action:none}
+.overlay-el.selected{outline:2px dashed #00d4ff}
+.handle{position:absolute;width:18px;height:18px;background:#00d4ff;border-radius:50%;cursor:pointer;display:none;align-items:center;justify-content:center;font-size:11px;color:#000;font-weight:bold}
+.overlay-el.selected .handle{display:flex}
+.handle.resize{right:-9px;bottom:-9px;cursor:nwse-resize}
+.handle.rotate{top:-26px;left:50%;transform:translateX(-50%);cursor:grab}
+.handle.del{top:-9px;right:-9px;background:#ef4444;color:#fff}
+.side-panel{flex:1;min-width:280px;max-height:700px;overflow-y:auto;background:rgba(0,212,255,0.05);border:1px solid #00d4ff;border-radius:8px;padding:12px}
+.panel-title{color:#00d4ff;font-weight:bold;font-size:12px;text-transform:uppercase;margin:12px 0 6px 0}
+.catalog-search{width:100%;padding:8px;border:2px solid #00d4ff;border-radius:6px;background:#1a1a2e;color:#fff;margin-bottom:8px}
+.catalog-item{display:flex;justify-content:space-between;align-items:center;background:rgba(0,212,255,0.08);padding:6px 10px;border-radius:6px;margin-bottom:4px;font-size:12px}
+.catalog-item button{font-size:10px;padding:4px 8px;margin:0 2px}
+.catalog-count{font-size:11px;color:#999;margin-bottom:6px}
+label{display:block;margin-bottom:5px;color:#00d4ff;font-weight:bold;font-size:12px}
+.form-group{margin:12px 0}
+input[type="email"],input[type="password"],input[type="text"],select,textarea{width:100%;padding:9px;border:2px solid #00d4ff;border-radius:6px;background:#1a1a2e;color:#fff;font-size:13px}
+input[type="range"]{width:100%}
+.message{padding:10px;border-radius:6px;margin:10px 0;font-weight:bold;font-size:12px}
 .success{background:#10b981;color:#fff}
 .error{background:#ef4444;color:#fff}
-.warning{background:#f59e0b;color:#fff}
-.close-modal{float:right;font-size:24px;cursor:pointer;color:#06b6d4}
-.close-modal:hover{color:#ec4899}
-@media(max-width:768px){
-.navbar{flex-direction:column;gap:10px}
-.nav{flex-wrap:wrap;justify-content:center}
-h1{font-size:32px}
-.grid{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))}
-.editor-top{flex-direction:column}
-.preview{height:250px}
-.price-card.pro{transform:scale(1.02)}
-}
+.modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.9);z-index:1000;justify-content:center;align-items:center}
+.modal.show{display:flex}
+.modal-content{background:#16213e;padding:30px;border-radius:8px;border:2px solid #00d4ff;max-width:480px;width:90%}
+.close{background:none;border:none;font-size:26px;color:#00d4ff;cursor:pointer;float:right}
+.nav{margin-bottom:20px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.nav-btn{padding:9px 16px;background:#0f3460;color:#00d4ff;border:2px solid #00d4ff;border-radius:6px;cursor:pointer;font-weight:bold;font-size:13px}
+.nav-btn.active{background:#00d4ff;color:#000}
+.page{display:none}
+.page.active{display:block}
+.user-info{background:#0f3460;padding:9px 14px;border-radius:6px;color:#00d4ff;font-weight:bold;font-size:12px}
+.toast{position:fixed;bottom:20px;right:20px;background:#10b981;color:#fff;padding:12px 18px;border-radius:6px;z-index:9999;font-size:13px}
+.toast.error{background:#ef4444}
+.note{font-size:11px;color:#999;font-style:italic;margin-top:4px}
 </style>
 </head>
 <body>
 
-<div class="navbar">
-<div class="logo">✨ faruSpark Pro</div>
+<div class="header"><h1>🎬 CineMaster Pro</h1></div>
+
 <div class="nav">
-<button class="active" onclick="nav('home')">Home</button>
-<button onclick="nav('editor')">Editor</button>
-<button onclick="nav('features')">Features</button>
-<button class="pro-btn" onclick="nav('pricing')">Pricing</button>
-<span class="user-info" id="userStatus">Guest</span>
-</div>
+<button class="nav-btn active" data-page="home" onclick="showPage('home',this)">Home</button>
+<button class="nav-btn" data-page="editor" onclick="showPage('editor',this)">Editor</button>
+<span style="flex:1"></span>
+<span id="userSpan" class="user-info">👤 Guest</span>
+<button class="nav-btn" onclick="openAuthModal()">Sign In</button>
 </div>
 
-<!-- HOME -->
-<div id="home" class="section active">
+<div id="home" class="page active">
 <div class="container">
-<h1>Create Viral Videos in Minutes</h1>
-<p>Professional AI-powered video editor for TikTok, Instagram, YouTube & Facebook</p>
-<div class="btns">
-<button class="btn primary" onclick="nav('editor')">Start Editing Free</button>
-<button class="btn secondary" onclick="nav('pricing')">Go Pro - Unlock All</button>
-<button class="btn tertiary" onclick="loginModal()">Sign In / Sign Up</button>
-</div>
-
-<h2 style="margin-top:40px">Key Features</h2>
-<div class="grid">
-<div class="card" onclick="showFeatureDetail('subtitles')">
-<div class="card-icon">🤖</div>
-<div class="card-title">AI Subtitles</div>
-<div class="card-desc">50+ languages</div>
-</div>
-<div class="card" onclick="showFeatureDetail('music')">
-<div class="card-icon">🎵</div>
-<div class="card-title">Music Library</div>
-<div class="card-desc">1000+ tracks</div>
-</div>
-<div class="card" onclick="showFeatureDetail('templates')">
-<div class="card-icon">🎨</div>
-<div class="card-title">Templates</div>
-<div class="card-desc">All platforms</div>
-</div>
-<div class="card" onclick="showFeatureDetail('effects')">
-<div class="card-icon">✨</div>
-<div class="card-title">Effects</div>
-<div class="card-desc">20+ filters</div>
-</div>
-<div class="card" onclick="showFeatureDetail('speed')">
-<div class="card-icon">⚡</div>
-<div class="card-title">Lightning Fast</div>
-<div class="card-desc">10x faster</div>
-</div>
-<div class="card" onclick="showFeatureDetail('export')">
-<div class="card-icon">📱</div>
-<div class="card-title">Export All</div>
-<div class="card-desc">Any format</div>
-</div>
-</div>
+<h2>Welcome to CineMaster Pro</h2>
+<p>20 filters, draggable text & stickers, music + subtitle catalogs, real local accounts with a 7-day trial, PNG export.</p>
+<button onclick="showPage('editor')">Start Editing →</button>
 </div>
 </div>
 
-<!-- EDITOR -->
-<div id="editor" class="section">
+<div id="editor" class="page">
 <div class="container">
-<h1>Video Editor</h1>
-<p id="editorMsg">Upload a video to start editing</p>
+<h2>Editor</h2>
+<input type="file" id="imageInput" accept="image/*" onchange="handleImageUpload()">
 
-<div class="editor-container">
-<div class="editor-top">
-<div style="flex:1">
-<input type="file" id="videoFile" accept="video/*" onchange="loadVideo()" style="width:100%;padding:10px;border:2px solid #06b6d4;border-radius:6px;background:rgba(6,182,212,0.1);color:#fff;cursor:pointer">
-</div>
-<button class="btn primary" onclick="exportVideo()">📥 Export Video</button>
+<div class="editor-row">
+  <div class="canvas-wrap" id="canvasWrap">
+    <canvas id="canvas" width="700" height="500"></canvas>
+  </div>
+
+  <div class="side-panel">
+    <div class="panel-title">✨ Filters (20) + Intensity</div>
+    <div class="tools" id="filterButtons"></div>
+    <label style="margin-top:8px">Intensity: <span id="intensityVal">100</span>%</label>
+    <input type="range" id="intensitySlider" min="0" max="200" value="100" oninput="onIntensityChange()">
+
+    <div class="panel-title">✏️ Add Text</div>
+    <input type="text" id="textInput" placeholder="Type text...">
+    <input type="color" id="textColor" value="#ffffff" style="margin-top:6px">
+    <button onclick="addTextOverlay()" style="width:100%;margin-top:8px">+ Add Text</button>
+
+    <div class="panel-title">🎭 Stickers (12) - drag, resize, rotate, delete</div>
+    <div class="tools" id="stickerButtons"></div>
+
+    <div class="panel-title">📋 Templates</div>
+    <div class="tools" id="templateButtons"></div>
+
+    <div class="panel-title">📥 Export</div>
+    <button onclick="exportImage()" style="width:100%;background:#10b981">Export PNG</button>
+  </div>
+
+  <div class="side-panel">
+    <div class="panel-title">🎵 Music Catalog (<span id="musicTotal"></span>)</div>
+    <input class="catalog-search" id="musicSearch" placeholder="Search tracks..." oninput="renderMusicCatalog()">
+    <div class="catalog-count" id="musicCount"></div>
+    <div id="musicList"></div>
+    <p class="note">Preview plays a short generated tone. Full streaming of licensed tracks needs a connected music API — not something a static file can do on its own.</p>
+
+    <div class="panel-title">🌍 Subtitles (60 languages)</div>
+    <select id="subLang"></select>
+    <textarea id="subText" rows="2" placeholder="Type your subtitle..." style="margin-top:6px"></textarea>
+    <button onclick="addSubtitleOverlay()" style="width:100%;margin-top:8px">+ Burn Subtitle Onto Image</button>
+    <p class="note">This adds your own typed caption in the chosen language's text direction/style. Automatic speech-to-text or translation needs a connected AI service.</p>
+  </div>
 </div>
 
-<div class="preview">
-<video id="videoPreview" controls style="display:none"></video>
-<span id="previewMsg" style="color:#999">No video loaded</span>
-</div>
-
-<div class="editor-tools" id="editorTools" style="display:none">
-<button class="tool-btn" onclick="toggleLibrary('subtitles')">+ Subtitles</button>
-<button class="tool-btn" onclick="toggleLibrary('music')">+ Music</button>
-<button class="tool-btn" onclick="toggleLibrary('templates')">+ Templates</button>
-<button class="tool-btn" onclick="toggleLibrary('effects')">+ Effects</button>
-<button class="tool-btn" onclick="toggleLibrary('transitions')">+ Transitions</button>
-<button class="tool-btn" onclick="resetVideo()">↻ Reset</button>
-</div>
-
-<!-- SUBTITLES LIBRARY -->
-<div id="subtitles-lib" class="library" style="display:none">
-<div class="library-title">🤖 AI Subtitles (50+ Languages)</div>
-<div class="library-items">
-<div class="lib-item" onclick="selectSubtitle('English')">English</div>
-<div class="lib-item" onclick="selectSubtitle('Spanish')">Spanish</div>
-<div class="lib-item" onclick="selectSubtitle('French')">French</div>
-<div class="lib-item" onclick="selectSubtitle('German')">German</div>
-<div class="lib-item" onclick="selectSubtitle('Italian')">Italian</div>
-<div class="lib-item" onclick="selectSubtitle('Portuguese')">Portuguese</div>
-<div class="lib-item" onclick="selectSubtitle('Russian')">Russian</div>
-<div class="lib-item" onclick="selectSubtitle('Chinese')">Chinese</div>
-<div class="lib-item" onclick="selectSubtitle('Japanese')">Japanese</div>
-<div class="lib-item" onclick="selectSubtitle('Korean')">Korean</div>
-<div class="lib-item" onclick="selectSubtitle('Hindi')">Hindi</div>
-<div class="lib-item" onclick="selectSubtitle('Arabic')">Arabic</div>
-</div>
-</div>
-
-<!-- MUSIC LIBRARY -->
-<div id="music-lib" class="library" style="display:none">
-<div class="library-title">🎵 Royalty-Free Music (1000+ Tracks)</div>
-<div class="library-items">
-<div class="lib-item" onclick="selectMusic('Upbeat Energy')">⭐ Upbeat Energy</div>
-<div class="lib-item" onclick="selectMusic('Chill Vibes')">Chill Vibes</div>
-<div class="lib-item" onclick="selectMusic('Cinematic')">Cinematic</div>
-<div class="lib-item" onclick="selectMusic('Electronic')">Electronic</div>
-<div class="lib-item" onclick="selectMusic('Hip-Hop')">Hip-Hop</div>
-<div class="lib-item" onclick="selectMusic('Pop')">Pop</div>
-<div class="lib-item" onclick="selectMusic('Indie')">Indie</div>
-<div class="lib-item" onclick="selectMusic('Jazz')">Jazz</div>
-<div class="lib-item" onclick="selectMusic('Lo-Fi')">Lo-Fi</div>
-<div class="lib-item" onclick="selectMusic('Ambient')">Ambient</div>
-<div class="lib-item" onclick="selectMusic('Rock')">Rock</div>
-<div class="lib-item" onclick="selectMusic('Funk')">Funk</div>
 </div>
 </div>
 
-<!-- TEMPLATES LIBRARY -->
-<div id="templates-lib" class="library" style="display:none">
-<div class="library-title">🎨 Templates (All Platforms)</div>
-<div class="library-items">
-<div class="lib-item" onclick="selectTemplate('TikTok 9:16')">TikTok (9:16)</div>
-<div class="lib-item" onclick="selectTemplate('Instagram Reels 9:16')">Instagram (9:16)</div>
-<div class="lib-item" onclick="selectTemplate('YouTube Shorts 9:16')">YouTube (9:16)</div>
-<div class="lib-item" onclick="selectTemplate('Facebook 1:1')">Facebook (1:1)</div>
-<div class="lib-item" onclick="selectTemplate('YouTube 16:9')">YouTube (16:9)</div>
-<div class="lib-item" onclick="selectTemplate('Instagram Feed 4:5')">Insta Feed (4:5)</div>
-<div class="lib-item" onclick="selectTemplate('Twitter 16:9')">Twitter (16:9)</div>
-<div class="lib-item" onclick="selectTemplate('LinkedIn 1:1')">LinkedIn (1:1)</div>
-<div class="lib-item" onclick="selectTemplate('Pinterest 1:1.5')">Pinterest (1:1.5)</div>
-<div class="lib-item" onclick="selectTemplate('Square 1:1')">Square (1:1)</div>
-<div class="lib-item" onclick="selectTemplate('Landscape 16:9')">Landscape (16:9)</div>
-<div class="lib-item" onclick="selectTemplate('Portrait 9:16')">Portrait (9:16)</div>
-</div>
-</div>
-
-<!-- EFFECTS LIBRARY -->
-<div id="effects-lib" class="library" style="display:none">
-<div class="library-title">✨ Effects & Filters (20+)</div>
-<div class="library-items">
-<div class="lib-item" onclick="selectEffect('Brighten')">☀️ Brighten</div>
-<div class="lib-item" onclick="selectEffect('Darken')">🌙 Darken</div>
-<div class="lib-item" onclick="selectEffect('Contrast')">⚙️ Contrast</div>
-<div class="lib-item" onclick="selectEffect('Saturation')">🌈 Saturation</div>
-<div class="lib-item" onclick="selectEffect('Grayscale')">⚪ Grayscale</div>
-<div class="lib-item" onclick="selectEffect('Sepia')">🟫 Sepia</div>
-<div class="lib-item" onclick="selectEffect('Vintage')">📼 Vintage</div>
-<div class="lib-item" onclick="selectEffect('Blur')">💫 Blur</div>
-<div class="lib-item" onclick="selectEffect('Sharp')">🔪 Sharp</div>
-<div class="lib-item" onclick="selectEffect('Warm')">🔥 Warm</div>
-<div class="lib-item" onclick="selectEffect('Cool')">❄️ Cool</div>
-<div class="lib-item" onclick="selectEffect('Hue Shift')">🌀 Hue Shift</div>
-</div>
-</div>
-
-<!-- TRANSITIONS -->
-<div id="transitions-lib" class="library" style="display:none">
-<div class="library-title">🎬 Transitions (20+)</div>
-<div class="library-items">
-<div class="lib-item" onclick="selectTransition('Fade')">Fade</div>
-<div class="lib-item" onclick="selectTransition('Slide Left')">Slide Left</div>
-<div class="lib-item" onclick="selectTransition('Slide Right')">Slide Right</div>
-<div class="lib-item" onclick="selectTransition('Zoom In')">Zoom In</div>
-<div class="lib-item" onclick="selectTransition('Zoom Out')">Zoom Out</div>
-<div class="lib-item" onclick="selectTransition('Rotate')">Rotate</div>
-<div class="lib-item" onclick="selectTransition('Blur')">Blur</div>
-<div class="lib-item" onclick="selectTransition('Flash')">Flash</div>
-<div class="lib-item" onclick="selectTransition('Flip')">Flip</div>
-<div class="lib-item" onclick="selectTransition('Wave')">Wave</div>
-<div class="lib-item" onclick="selectTransition('Circle')">Circle</div>
-<div class="lib-item" onclick="selectTransition('Diamond')">Diamond</div>
-</div>
-</div>
-
-<div class="controls" id="videoControls" style="display:none">
-<div class="control-group">
-<div class="control-label">Volume</div>
-<input type="range" min="0" max="100" value="100" onchange="setVolume(this.value)">
-</div>
-<div class="control-group">
-<div class="control-label">Speed</div>
-<input type="range" min="0.5" max="2" step="0.1" value="1" onchange="setSpeed(this.value)">
-</div>
-<div class="control-group">
-<div class="control-label">Brightness</div>
-<input type="range" min="0.5" max="1.5" step="0.1" value="1" onchange="setBrightness(this.value)">
-</div>
-<div class="control-group">
-<div class="control-label">Contrast</div>
-<input type="range" min="0.5" max="1.5" step="0.1" value="1" onchange="setContrast(this.value)">
-</div>
-</div>
-
-<div id="statusMsg" style="margin-top:20px"></div>
-</div>
-</div>
-
-<!-- FEATURES -->
-<div id="features" class="section">
-<div class="container">
-<h1>All Features</h1>
-
-<h2>🤖 AI Subtitles</h2>
-<p>Automatically generate accurate subtitles in 50+ languages with perfect timing and formatting.</p>
-<div class="grid">
-<div class="card"><strong>English</strong><br><span style="font-size:11px">American, British, Australian</span></div>
-<div class="card"><strong>Spanish</strong><br><span style="font-size:11px">Spain, Mexico, Latin America</span></div>
-<div class="card"><strong>French</strong><br><span style="font-size:11px">France, Canadian, Swiss</span></div>
-<div class="card"><strong>German</strong><br><span style="font-size:11px">Germany, Austria, Switzerland</span></div>
-<div class="card"><strong>Chinese</strong><br><span style="font-size:11px">Mandarin, Cantonese, Simplified</span></div>
-<div class="card"><strong>Japanese</strong><br><span style="font-size:11px">Hiragana, Katakana, Kanji</span></div>
-<div class="card"><strong>Arabic</strong><br><span style="font-size:11px">Modern Standard, Dialects</span></div>
-<div class="card"><strong>Hindi</strong><br><span style="font-size:11px">With Devanagari script</span></div>
-</div>
-
-<h2 style="margin-top:40px">🎵 Music Library (1000+ Tracks)</h2>
-<p>Premium royalty-free music updated daily. Perfect for any mood and content.</p>
-<div class="grid">
-<div class="card"><strong>Upbeat Energy</strong><br><span style="font-size:11px">120+ trending tracks</span></div>
-<div class="card"><strong>Chill Vibes</strong><br><span style="font-size:11px">150+ relaxing tracks</span></div>
-<div class="card"><strong>Cinematic</strong><br><span style="font-size:11px">100+ epic tracks</span></div>
-<div class="card"><strong>Electronic</strong><br><span style="font-size:11px">200+ EDM tracks</span></div>
-<div class="card"><strong>Hip-Hop</strong><br><span style="font-size:11px">150+ beats</span></div>
-<div class="card"><strong>Pop</strong><br><span style="font-size:11px">180+ popular tracks</span></div>
-<div class="card"><strong>Jazz</strong><br><span style="font-size:11px">120+ smooth jazz</span></div>
-<div class="card"><strong>Ambient</strong><br><span style="font-size:11px">100+ background music</span></div>
-</div>
-
-<h2 style="margin-top:40px">🎨 Templates (All Platforms)</h2>
-<p>Pre-designed, platform-optimized templates. One-click setup for any social media platform.</p>
-<div class="grid">
-<div class="card"><strong>TikTok</strong><br><span style="font-size:11px">9:16 vertical</span></div>
-<div class="card"><strong>Instagram</strong><br><span style="font-size:11px">Reels & Feed</span></div>
-<div class="card"><strong>YouTube</strong><br><span style="font-size:11px">Shorts & Long Form</span></div>
-<div class="card"><strong>Facebook</strong><br><span style="font-size:11px">Video & Stories</span></div>
-<div class="card"><strong>Twitter</strong><br><span style="font-size:11px">16:9 landscape</span></div>
-<div class="card"><strong>LinkedIn</strong><br><span style="font-size:11px">Professional 1:1</span></div>
-<div class="card"><strong>Pinterest</strong><br><span style="font-size:11px">1:1.5 vertical</span></div>
-<div class="card"><strong>TikTok Live</strong><br><span style="font-size:11px">Streaming optimized</span></div>
-</div>
-
-<h2 style="margin-top:40px">✨ Effects & Filters (20+)</h2>
-<p>Professional effects to enhance your videos. Color grading, filters, and visual adjustments.</p>
-<div class="grid">
-<div class="card">Brightness</div>
-<div class="card">Contrast</div>
-<div class="card">Saturation</div>
-<div class="card">Grayscale</div>
-<div class="card">Sepia</div>
-<div class="card">Vintage</div>
-<div class="card">Blur</div>
-<div class="card">Sharpen</div>
-<div class="card">Warm Filter</div>
-<div class="card">Cool Filter</div>
-<div class="card">Hue Shift</div>
-<div class="card">Neon Glow</div>
-</div>
-
-<h2 style="margin-top:40px">🎬 Transitions (20+)</h2>
-<p>Smooth professional transitions between scenes.</p>
-<div class="grid">
-<div class="card">Fade</div>
-<div class="card">Slide</div>
-<div class="card">Zoom</div>
-<div class="card">Rotate</div>
-<div class="card">Flip</div>
-<div class="card">Wave</div>
-<div class="card">Circle</div>
-<div class="card">Diamond</div>
-<div class="card">Blur Fade</div>
-<div class="card">Cross Fade</div>
-<div class="card">Push</div>
-<div class="card">Wipe</div>
-</div>
-
-<h2 style="margin-top:40px">⚡ Performance</h2>
-<p><strong>10x Faster Rendering:</strong> Cloud-powered processing exports HD videos in seconds, not hours.</p>
-
-<h2>📱 Export All Formats</h2>
-<p><strong>Export to any platform:</strong> MP4, MOV, WebM, MKV, AVI, FLV with automatic platform optimization.</p>
-</div>
-</div>
-
-<!-- PRICING -->
-<div id="pricing" class="section">
-<div class="container">
-<h1>Pricing Plans</h1>
-<p>Choose the plan that's right for you</p>
-
-<div class="price-grid">
-<!-- FREE -->
-<div class="price-card">
-<h3>Free</h3>
-<div class="price-amount">$0</div>
-<p style="font-size:12px;color:#c084fc">Forever free</p>
-<ul class="price-list">
-<li>5 videos/month</li>
-<li>480p export</li>
-<li>Basic filters</li>
-<li>30 music tracks</li>
-<li>No subtitles</li>
-<li>Community support</li>
-<li>Watermark included</li>
-</ul>
-<button class="btn primary" style="width:100%;margin-top:15px" onclick="nav('editor')">Start Free</button>
-</div>
-
-<!-- PRO TRIAL -->
-<div class="price-card">
-<h3>Pro Trial <span class="trial-badge">7 Days Free</span></h3>
-<div class="price-amount">$0</div>
-<p style="font-size:12px;color:#10b981">Then $2.99/month</p>
-<ul class="price-list">
-<li>Unlimited videos</li>
-<li>1080p + 4K export</li>
-<li>All 20+ effects</li>
-<li>1000+ music tracks</li>
-<li>50+ AI subtitles</li>
-<li>All templates</li>
-<li>Priority support</li>
-<li>No watermark</li>
-</ul>
-<button class="btn secondary" style="width:100%;margin-top:15px" onclick="startTrial()">Start 7-Day Free Trial</button>
-<p style="font-size:11px;color:#10b981;margin-top:10px">✅ No credit card required</p>
-</div>
-
-<!-- PRO MONTHLY -->
-<div class="price-card pro">
-<h3>Pro Monthly</h3>
-<div class="price-amount">$2.99</div>
-<p style="font-size:12px;color:#10b981">per month, cancel anytime</p>
-<ul class="price-list">
-<li>Unlimited videos</li>
-<li>1080p + 4K export</li>
-<li>All 20+ effects</li>
-<li>1000+ music tracks</li>
-<li>50+ AI subtitles</li>
-<li>All templates</li>
-<li>Priority support</li>
-<li>No watermark</li>
-</ul>
-<button class="btn secondary" style="width:100%;margin-top:15px" onclick="buynow('monthly')">Subscribe Now</button>
-</div>
-
-<!-- PRO YEARLY -->
-<div class="price-card pro">
-<h3>Pro Yearly</h3>
-<div class="price-amount">$19.99</div>
-<p style="font-size:12px;color:#10b981">per year (save 33%)</p>
-<ul class="price-list">
-<li>Everything in Monthly</li>
-<li>2 extra months free</li>
-<li>VIP priority support</li>
-<li>Early access to new features</li>
-<li>Exclusive content library</li>
-<li>Family sharing (3 accounts)</li>
-<li>Advanced analytics</li>
-<li>API access</li>
-</ul>
-<button class="btn secondary" style="width:100%;margin-top:15px" onclick="buynow('yearly')">Subscribe Now - Save 33%</button>
-</div>
-</div>
-
-<div style="background:rgba(6,182,212,0.1);padding:25px;border-radius:12px;border:2px solid #06b6d4;margin-top:40px">
-<h2 style="color:#06b6d4;margin-bottom:15px">❓ FAQ</h2>
-<p><strong>Can I cancel anytime?</strong> Yes! Cancel your subscription anytime with one click. No hidden fees.</p>
-<p><strong>What happens to my videos?</strong> Your videos stay with you forever. Even after cancellation, you can re-download them.</p>
-<p><strong>Can I change plans?</strong> Yes! Upgrade or downgrade anytime. Changes take effect immediately.</p>
-<p><strong>Do you offer refunds?</strong> 30-day money-back guarantee. No questions asked.</p>
-<p><strong>Is there a student discount?</strong> Yes! 50% off with valid student email.</p>
-</div>
-</div>
-</div>
-
-<!-- LOGIN/SIGNUP MODAL -->
-<div id="loginModal" class="modal">
+<div id="authModal" class="modal">
 <div class="modal-content">
-<span class="close-modal" onclick="closeModal('loginModal')">&times;</span>
-<div id="loginForm">
-<h2 class="modal-title">Welcome to faruSpark</h2>
-<div class="form-group">
-<label>Email</label>
-<input type="email" id="loginEmail" placeholder="your@email.com">
+<button class="close" onclick="closeAuthModal()">&times;</button>
+<h2 id="authTitle" style="color:#00d4ff">Sign In</h2>
+<div id="loginSection">
+<div class="form-group"><label>Email</label><input type="email" id="loginEmail"></div>
+<div class="form-group"><label>Password</label><input type="password" id="loginPassword"></div>
+<button onclick="doLogin()" style="width:100%">Sign In</button>
+<p style="text-align:center;margin-top:12px;font-size:12px">No account? <span style="color:#00d4ff;cursor:pointer;font-weight:bold" onclick="switchToSignup()">Create one</span></p>
+<div id="loginMessage"></div>
 </div>
-<div class="form-group">
-<label>Password</label>
-<input type="password" id="loginPassword" placeholder="••••••••">
-</div>
-<button class="btn secondary" style="width:100%;padding:12px;margin-top:15px" onclick="login()">Sign In</button>
-<p style="text-align:center;margin-top:15px;font-size:13px">
-Don't have an account? <span style="color:#06b6d4;cursor:pointer" onclick="toggleForm()">Create one</span>
-</p>
-</div>
-
-<div id="signupForm" style="display:none">
-<h2 class="modal-title">Create Account</h2>
-<div class="form-group">
-<label>Full Name</label>
-<input type="text" id="signupName" placeholder="Your name">
-</div>
-<div class="form-group">
-<label>Email</label>
-<input type="email" id="signupEmail" placeholder="your@email.com">
-</div>
-<div class="form-group">
-<label>Password</label>
-<input type="password" id="signupPassword" placeholder="••••••••">
-</div>
-<button class="btn secondary" style="width:100%;padding:12px;margin-top:15px" onclick="signup()">Create Account</button>
-<p style="text-align:center;margin-top:15px;font-size:13px">
-Already have an account? <span style="color:#06b6d4;cursor:pointer" onclick="toggleForm()">Sign in</span>
-</p>
+<div id="signupSection" style="display:none">
+<div class="form-group"><label>Name</label><input type="text" id="signupName"></div>
+<div class="form-group"><label>Email</label><input type="email" id="signupEmail"></div>
+<div class="form-group"><label>Password</label><input type="password" id="signupPassword"></div>
+<div class="form-group"><label>Confirm</label><input type="password" id="signupConfirm"></div>
+<button onclick="doSignup()" style="width:100%">Create Account</button>
+<p style="text-align:center;margin-top:12px;font-size:12px">Have account? <span style="color:#00d4ff;cursor:pointer;font-weight:bold" onclick="switchToLogin()">Sign in</span></p>
+<div id="signupMessage"></div>
 </div>
 </div>
-</div>
-
-<!-- PAYMENT MODAL -->
-<div id="paymentModal" class="modal">
-<div class="modal-content">
-<span class="close-modal" onclick="closeModal('paymentModal')">&times;</span>
-<h2 class="modal-title" id="paymentTitle">Subscribe to Pro</h2>
-<p id="paymentAmount" style="text-align:center;font-size:24px;color:#fbbf24;margin:15px 0;font-weight:bold"></p>
-<div class="form-group">
-<label>Full Name</label>
-<input type="text" id="cardName" placeholder="Your name">
-</div>
-<div class="form-group">
-<label>Email</label>
-<input type="email" id="cardEmail" placeholder="your@email.com">
-</div>
-<div id="card-element" style="border:2px solid #06b6d4;padding:12px;border-radius:6px;background:rgba(0,0,0,0.3);margin:15px 0"></div>
-<button class="btn secondary" style="width:100%;padding:12px;margin-top:15px" onclick="processPayment()">Complete Payment</button>
-<p style="font-size:11px;color:#999;margin-top:15px">🔒 Secure payment powered by Stripe. Your card info is never stored.</p>
-</div>
-</div>
-
-<!-- TRIAL MODAL -->
-<div id="trialModal" class="modal">
-<div class="modal-content">
-<span class="close-modal" onclick="closeModal('trialModal')">&times;</span>
-<h2 class="modal-title">🚀 Get 7-Day Free Trial</h2>
-<p style="color:#10b981;margin-bottom:15px;font-weight:bold">✨ Full access to all Pro features!</p>
-<div class="form-group">
-<label>Email</label>
-<input type="email" id="trialEmail" placeholder="your@email.com">
-</div>
-<div class="form-group">
-<label>Password</label>
-<input type="password" id="trialPassword" placeholder="••••••••">
-</div>
-<button class="btn tertiary" style="width:100%;padding:12px;margin-top:15px" onclick="claimTrial()">Activate 7-Day Trial</button>
-<p style="font-size:11px;color:#10b981;margin-top:15px;text-align:center">✅ No credit card required. Trial expires after 7 days.</p>
-</div>
-</div>
-
-<div class="footer">
-<p>Made with 💜 by faruSpark Team | Professional Video Editing for Everyone</p>
-<p style="font-size:12px;color:#999;margin-top:10px">© 2024 faruSpark • Create. Share. Earn. | Terms • Privacy • Support</p>
 </div>
 
 <script>
-// State Management
-let user = JSON.parse(localStorage.getItem('user')) || null;
-let subscription = JSON.parse(localStorage.getItem('subscription')) || null;
-let trial = JSON.parse(localStorage.getItem('trial')) || null;
-let videoData = {filename:'',duration:0};
-let stripe = Stripe('pk_test_YOUR_STRIPE_KEY'); // Replace with real key
-let cardElement = null;
+/* ============ STATE ============ */
+let canvas = document.getElementById('canvas');
+let ctx = canvas.getContext('2d');
+let baseImage = null;
+let currentFilterKey = 'normal';
+let currentIntensity = 100;
+let overlays = [];
+let selectedOverlayId = null;
+let overlayCounter = 0;
+let userData = JSON.parse(localStorage.getItem('cinemaster_data')) || null;
 
-// Initialize
-function init(){
-  updateUserStatus();
-  if(cardElement===null && document.getElementById('card-element')){
-    try{cardElement=stripe.elements().create('card');cardElement.mount('#card-element')}catch(e){}
+/* ============ FILTERS (20) ============ */
+const FILTERS = {
+  normal:    {label:'Normal',    css:i=>'none'},
+  bright:    {label:'Bright',    css:i=>`brightness(${1+0.6*i})`},
+  dark:      {label:'Dark',      css:i=>`brightness(${1-0.5*i})`},
+  bw:        {label:'B & White', css:i=>`grayscale(${i})`},
+  sepia:     {label:'Sepia',     css:i=>`sepia(${i})`},
+  blur:      {label:'Blur',      css:i=>`blur(${6*i}px)`},
+  vintage:   {label:'Vintage',   css:i=>`sepia(${0.5*i}) brightness(${1+0.1*i}) saturate(${1+0.2*i})`},
+  retro:     {label:'Retro',     css:i=>`sepia(${0.4*i}) contrast(${1+0.3*i}) brightness(${1-0.05*i})`},
+  cool:      {label:'Cool',      css:i=>`hue-rotate(${200*i}deg) brightness(${1+0.1*i})`},
+  warm:      {label:'Warm',      css:i=>`sepia(${0.35*i}) saturate(${1+0.2*i})`},
+  soft:      {label:'Soft',      css:i=>`blur(${2*i}px) brightness(${1+0.15*i})`},
+  vivid:     {label:'Vivid',     css:i=>`saturate(${1+1*i}) contrast(${1+0.2*i})`},
+  cinematic: {label:'Cinematic', css:i=>`contrast(${1+0.3*i}) saturate(${1-0.2*i}) hue-rotate(${10*i}deg)`},
+  dream:     {label:'Dream',     css:i=>`blur(${3*i}px) brightness(${1+0.2*i}) saturate(${1+0.1*i})`},
+  hdr:       {label:'HDR',       css:i=>`contrast(${1+0.4*i}) brightness(${1+0.05*i}) saturate(${1+0.3*i})`},
+  sharpen:   {label:'Sharpen',   kind:'convolve'},
+  glow:      {label:'Glow',      kind:'glow'},
+  neon:      {label:'Neon',      kind:'neon'},
+  purple:    {label:'Purple',    kind:'duotone', color:[120,60,200]},
+  orange:    {label:'Orange',    kind:'duotone', color:[255,120,40]}
+};
+
+function buildFilterButtons(){
+  const c = document.getElementById('filterButtons');
+  c.innerHTML = '';
+  Object.keys(FILTERS).forEach(key=>{
+    const b = document.createElement('button');
+    b.className = 'tool-btn' + (key==='normal' ? ' selected' : '');
+    b.textContent = FILTERS[key].label;
+    b.dataset.key = key;
+    b.onclick = () => selectFilter(key);
+    c.appendChild(b);
+  });
+}
+
+function selectFilter(key){
+  currentFilterKey = key;
+  document.querySelectorAll('#filterButtons .tool-btn').forEach(b=>{
+    b.classList.toggle('selected', b.dataset.key === key);
+  });
+  renderBase();
+  showMessage('✅ ' + FILTERS[key].label + ' filter applied');
+}
+
+function onIntensityChange(){
+  currentIntensity = parseInt(document.getElementById('intensitySlider').value);
+  document.getElementById('intensityVal').textContent = currentIntensity;
+  renderBase();
+}
+
+function renderBase(){
+  if(!baseImage) return;
+  const i = currentIntensity/100;
+  const f = FILTERS[currentFilterKey];
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+
+  if(!f.kind){
+    ctx.filter = f.css(i);
+    ctx.drawImage(baseImage,0,0,canvas.width,canvas.height);
+    ctx.filter = 'none';
+  } else if(f.kind === 'convolve'){
+    drawSharpen(i);
+  } else if(f.kind === 'glow'){
+    drawGlow(i);
+  } else if(f.kind === 'neon'){
+    drawNeon(i);
+  } else if(f.kind === 'duotone'){
+    drawDuotone(f.color, i);
   }
-  checkTrialStatus();
 }
 
-// Navigation
-function nav(page){
-  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
-  document.getElementById(page).classList.add('active');
-  document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));
-  event.target.classList.add('active');
-  window.scrollTo(0,0);
-}
-
-// User System
-function loginModal(){document.getElementById('loginModal').classList.add('active')}
-function closeModal(id){document.getElementById(id).classList.remove('active')}
-function toggleForm(){
-  document.getElementById('loginForm').style.display=document.getElementById('loginForm').style.display==='none'?'block':'none';
-  document.getElementById('signupForm').style.display=document.getElementById('signupForm').style.display==='none'?'none':'block';
-}
-
-function login(){
-  const email=document.getElementById('loginEmail').value;
-  const password=document.getElementById('loginPassword').value;
-  if(!email||!password){alert('Fill all fields!');return}
-  user={email,name:'User',createdAt:new Date()};
-  localStorage.setItem('user',JSON.stringify(user));
-  updateUserStatus();
-  closeModal('loginModal');
-  alert('✅ Logged in successfully!');
-}
-
-function signup(){
-  const name=document.getElementById('signupName').value;
-  const email=document.getElementById('signupEmail').value;
-  const password=document.getElementById('signupPassword').value;
-  if(!name||!email||!password){alert('Fill all fields!');return}
-  user={email,name,createdAt:new Date()};
-  localStorage.setItem('user',JSON.stringify(user));
-  updateUserStatus();
-  closeModal('loginModal');
-  alert('✅ Account created! Welcome to faruSpark!');
-}
-
-function updateUserStatus(){
-  const status=document.getElementById('userStatus');
-  if(user){
-    let text=`Hi ${user.name}`;
-    if(subscription){text+=` • PRO`}
-    else if(trial&&!isTrialExpired()){text+=` • TRIAL (${daysLeft()} days left)`}
-    status.textContent=text;
-  }else{
-    status.textContent='Guest';
-  }
-}
-
-// Trial System
-function startTrial(){
-  if(!user){loginModal();return}
-  document.getElementById('trialModal').classList.add('active');
-}
-
-function claimTrial(){
-  const email=document.getElementById('trialEmail').value;
-  if(!email){alert('Enter email!');return}
-  const trialStart=new Date();
-  const trialEnd=new Date(trialStart.getTime()+7*24*60*60*1000);
-  trial={start:trialStart.toISOString(),end:trialEnd.toISOString(),active:true};
-  localStorage.setItem('trial',JSON.stringify(trial));
-  subscription=null;
-  localStorage.setItem('subscription',JSON.stringify(null));
-  updateUserStatus();
-  closeModal('trialModal');
-  alert('🎉 7-Day Free Trial Activated!\n\n✨ You now have full access to all Pro features!\n\n🚀 Your trial expires on: '+trialEnd.toDateString());
-  nav('editor');
-}
-
-function checkTrialStatus(){
-  if(!trial||!trial.active)return;
-  const now=new Date();
-  const end=new Date(trial.end);
-  if(now>end){
-    trial.active=false;
-    localStorage.setItem('trial',JSON.stringify(trial));
-    if(user&&!subscription){
-      alert('⏰ Your 7-day trial has expired!\n\n💳 Subscribe to Pro to continue editing.\n\n$2.99/month or $19.99/year');
+function drawSharpen(intensity){
+  ctx.drawImage(baseImage,0,0,canvas.width,canvas.height);
+  const w=canvas.width,h=canvas.height;
+  const src = ctx.getImageData(0,0,w,h);
+  const out = ctx.createImageData(w,h);
+  const d = src.data, o = out.data;
+  const amt = 1 + 4*intensity;
+  const kernel = [0,-1,0,-1,amt+4,-1,0,-1,0];
+  for(let y=0;y<h;y++){
+    for(let x=0;x<w;x++){
+      for(let c=0;c<3;c++){
+        let sum=0,k=0;
+        for(let ky=-1;ky<=1;ky++){
+          for(let kx=-1;kx<=1;kx++){
+            const yy=Math.min(h-1,Math.max(0,y+ky));
+            const xx=Math.min(w-1,Math.max(0,x+kx));
+            sum += d[(yy*w+xx)*4+c]*kernel[k]; k++;
+          }
+        }
+        o[(y*w+x)*4+c] = Math.min(255,Math.max(0, sum/(amt)));
+      }
+      o[(y*w+x)*4+3]=255;
     }
   }
+  ctx.putImageData(out,0,0);
 }
 
-function isTrialExpired(){
-  if(!trial||!trial.active)return true;
-  return new Date()>new Date(trial.end);
+function drawGlow(intensity){
+  ctx.drawImage(baseImage,0,0,canvas.width,canvas.height);
+  ctx.save();
+  ctx.filter = `blur(${10*intensity}px) brightness(${1+0.8*intensity})`;
+  ctx.globalCompositeOperation = 'lighten';
+  ctx.drawImage(baseImage,0,0,canvas.width,canvas.height);
+  ctx.restore();
 }
 
-function daysLeft(){
-  if(!trial)return 0;
-  const now=new Date();
-  const end=new Date(trial.end);
-  return Math.ceil((end-now)/(24*60*60*1000));
+function drawNeon(intensity){
+  ctx.filter = `saturate(${1+2*intensity}) contrast(${1+0.3*intensity})`;
+  ctx.drawImage(baseImage,0,0,canvas.width,canvas.height);
+  ctx.filter='none';
+  ctx.save();
+  ctx.filter = `blur(${8*intensity}px) hue-rotate(${280*intensity}deg) saturate(3)`;
+  ctx.globalCompositeOperation = 'screen';
+  ctx.globalAlpha = 0.7;
+  ctx.drawImage(baseImage,0,0,canvas.width,canvas.height);
+  ctx.restore();
+  ctx.globalAlpha = 1;
 }
 
-// Subscription System
-function buynow(type){
-  if(!user){loginModal();return}
-  const amounts={monthly:'$2.99',yearly:'$19.99'};
-  document.getElementById('paymentTitle').textContent=`Subscribe to Pro ${type==='monthly'?'Monthly':'Yearly'}`;
-  document.getElementById('paymentAmount').textContent=amounts[type];
-  document.getElementById('paymentModal').dataset.type=type;
-  document.getElementById('paymentModal').classList.add('active');
+function drawDuotone(color, intensity){
+  ctx.filter = 'grayscale(1)';
+  ctx.drawImage(baseImage,0,0,canvas.width,canvas.height);
+  ctx.filter='none';
+  ctx.save();
+  ctx.globalCompositeOperation = 'multiply';
+  ctx.globalAlpha = intensity;
+  ctx.fillStyle = `rgb(${color[0]},${color[1]},${color[2]})`;
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+  ctx.restore();
+  ctx.globalAlpha = 1;
 }
 
-function processPayment(){
-  const type=document.getElementById('paymentModal').dataset.type;
-  const name=document.getElementById('cardName').value;
-  const email=document.getElementById('cardEmail').value;
-  if(!name||!email){alert('Fill all fields!');return}
-  
-  alert(`✅ Payment Successful!\n\n💳 Thank you for subscribing!\n\n✨ Your Pro subscription is now active.\n\n🎉 Full access to all features unlocked!`);
-  
-  subscription={
-    type,
-    startDate:new Date().toISOString(),
-    amount:type==='monthly'?2.99:19.99,
-    active:true
-  };
-  localStorage.setItem('subscription',JSON.stringify(subscription));
-  trial={active:false};
-  localStorage.setItem('trial',JSON.stringify(trial));
-  updateUserStatus();
-  closeModal('paymentModal');
-  nav('editor');
-}
-
-// Video Editor
-function loadVideo(){
-  const file=document.getElementById('videoFile').files[0];
-  if(!file){alert('Select a video!');return}
-  
-  checkAccess('video');
-  
-  const reader=new FileReader();
-  reader.onload=(e)=>{
-    const video=document.getElementById('videoPreview');
-    video.src=e.target.result;
-    video.style.display='block';
-    document.getElementById('previewMsg').style.display='none';
-    document.getElementById('editorTools').style.display='grid';
-    document.getElementById('videoControls').style.display='grid';
-    document.getElementById('editorMsg').textContent='✅ Video loaded! Edit below.';
-    videoData.filename=file.name;
+/* ============ IMAGE UPLOAD ============ */
+function handleImageUpload(){
+  const file = document.getElementById('imageInput').files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = e=>{
+    const img = new Image();
+    img.onload = ()=>{
+      const MAX = 700;
+      let w = img.width, h = img.height;
+      if(w > MAX || h > MAX){
+        const scale = Math.min(MAX/w, MAX/h);
+        w = Math.round(w*scale); h = Math.round(h*scale);
+      }
+      canvas.width = w; canvas.height = h;
+      document.getElementById('canvasWrap').style.width = w+'px';
+      document.getElementById('canvasWrap').style.height = h+'px';
+      baseImage = img;
+      currentFilterKey = 'normal';
+      currentIntensity = 100;
+      document.getElementById('intensitySlider').value = 100;
+      document.getElementById('intensityVal').textContent = 100;
+      document.querySelectorAll('#filterButtons .tool-btn').forEach(b=>b.classList.toggle('selected', b.dataset.key==='normal'));
+      clearAllOverlays();
+      renderBase();
+      showMessage('✅ Image loaded: ' + file.name);
+    };
+    img.src = e.target.result;
   };
   reader.readAsDataURL(file);
 }
 
-function checkAccess(feature){
-  if(!user){
-    alert('Please sign in to use this feature!');
-    loginModal();
-    return false;
-  }
-  if(subscription&&subscription.active)return true;
-  if(trial&&trial.active&&!isTrialExpired())return true;
-  alert('⭐ This feature requires Pro!\n\nSubscribe now to unlock all editing tools.');
-  nav('pricing');
-  return false;
+/* ============ OVERLAYS ============ */
+function createOverlay(type, content, opts){
+  opts = opts || {};
+  const id = 'ov' + (++overlayCounter);
+  const ov = {
+    id, type, content,
+    x: opts.x ?? (canvas.width/2 - 40),
+    y: opts.y ?? (canvas.height/2 - 20),
+    fontSize: opts.fontSize ?? (type==='sticker' ? 60 : 32),
+    color: opts.color ?? '#ffffff',
+    rotation: 0
+  };
+  overlays.push(ov);
+  renderOverlayDOM(ov);
+  selectOverlay(id);
+  return ov;
 }
 
-function toggleLibrary(lib){
-  if(!checkAccess('library'))return;
-  const libs=['subtitles','music','templates','effects','transitions'];
-  libs.forEach(l=>{
-    const el=document.getElementById(l+'-lib');
-    if(l===lib){el.style.display=el.style.display==='none'?'block':'none'}
-    else{el.style.display='none'}
+function renderOverlayDOM(ov){
+  const wrap = document.getElementById('canvasWrap');
+  const el = document.createElement('div');
+  el.className = 'overlay-el';
+  el.id = 'el_'+ov.id;
+  el.style.left = ov.x+'px';
+  el.style.top = ov.y+'px';
+  el.style.fontSize = ov.fontSize+'px';
+  el.style.color = ov.color;
+  el.style.fontWeight = 'bold';
+  el.style.transform = 'rotate('+ov.rotation+'deg)';
+  el.style.fontFamily='Arial';
+  if(ov.type==='subtitle'){
+    el.style.background='rgba(0,0,0,0.6)';
+    el.style.padding='4px 10px';
+    el.style.borderRadius='4px';
+  }
+  el.innerHTML = '<span class="ov-content">'+escapeHtml(ov.content)+'</span>'+
+    '<div class="handle del">×</div>'+
+    '<div class="handle rotate">⟳</div>'+
+    '<div class="handle resize">⤡</div>';
+  wrap.appendChild(el);
+
+  el.addEventListener('pointerdown', e=>{
+    if(e.target.classList.contains('handle')) return;
+    selectOverlay(ov.id);
+    startDrag(e, ov, el);
+  });
+  el.querySelector('.handle.del').addEventListener('pointerdown', e=>{ e.stopPropagation(); deleteOverlay(ov.id); });
+  el.querySelector('.handle.resize').addEventListener('pointerdown', e=>{ e.stopPropagation(); startResize(e, ov, el); });
+  el.querySelector('.handle.rotate').addEventListener('pointerdown', e=>{ e.stopPropagation(); startRotate(e, ov, el); });
+}
+
+function escapeHtml(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+function selectOverlay(id){
+  selectedOverlayId = id;
+  document.querySelectorAll('.overlay-el').forEach(el=>{
+    el.classList.toggle('selected', el.id === 'el_'+id);
   });
 }
 
-function selectSubtitle(lang){if(checkAccess('subtitle')){showMsg('✅ Subtitles added: '+lang,'success')}}
-function selectMusic(track){if(checkAccess('music')){showMsg('✅ Music added: '+track,'success')}}
-function selectTemplate(tpl){if(checkAccess('template')){showMsg('✅ Template applied: '+tpl,'success')}}
-function selectEffect(effect){if(checkAccess('effect')){showMsg('✅ Effect applied: '+effect,'success')}}
-function selectTransition(trans){if(checkAccess('transition')){showMsg('✅ Transition added: '+trans,'success')}}
-
-function setVolume(val){showMsg('🔊 Volume: '+val+'%','success')}
-function setSpeed(val){showMsg('⚡ Speed: '+val+'x','success')}
-function setBrightness(val){showMsg('☀️ Brightness: '+(Math.round((val-1)*100)+100)+'%','success')}
-function setContrast(val){showMsg('⚙️ Contrast: '+(Math.round((val-1)*100)+100)+'%','success')}
-
-function resetVideo(){
-  document.getElementById('videoFile').value='';
-  document.getElementById('videoPreview').style.display='none';
-  document.getElementById('previewMsg').style.display='block';
-  document.getElementById('editorTools').style.display='none';
-  document.getElementById('videoControls').style.display='none';
-  ['subtitles','music','templates','effects','transitions'].forEach(l=>document.getElementById(l+'-lib').style.display='none');
-  showMsg('✅ Video reset','success');
+function deleteOverlay(id){
+  overlays = overlays.filter(o=>o.id!==id);
+  const el = document.getElementById('el_'+id);
+  if(el) el.remove();
+  if(selectedOverlayId===id) selectedOverlayId=null;
+  showMessage('✅ Removed');
 }
 
-function exportVideo(){
-  if(!document.getElementById('videoPreview').src){alert('Load a video first!');return}
-  if(!checkAccess('export'))return;
-  showMsg('📥 Exporting video... (Free: 480p | Pro: 4K)','success');
-  setTimeout(()=>{
-    showMsg('✅ Video exported successfully! Download ready.','success');
-  },2000);
+function clearAllOverlays(){
+  overlays.forEach(o=>{ const el=document.getElementById('el_'+o.id); if(el) el.remove(); });
+  overlays = [];
+  selectedOverlayId = null;
 }
 
-function showMsg(msg,type){
-  const el=document.getElementById('statusMsg');
-  el.textContent=msg;
-  el.className='status-msg '+type;
+function startDrag(e, ov, el){
+  const startX = e.clientX, startY = e.clientY;
+  const origX = ov.x, origY = ov.y;
+  function move(ev){
+    ov.x = origX + (ev.clientX - startX);
+    ov.y = origY + (ev.clientY - startY);
+    el.style.left = ov.x+'px';
+    el.style.top = ov.y+'px';
+  }
+  function up(){
+    document.removeEventListener('pointermove', move);
+    document.removeEventListener('pointerup', up);
+  }
+  document.addEventListener('pointermove', move);
+  document.addEventListener('pointerup', up);
 }
 
-function showFeatureDetail(feat){alert('⭐ Upgrade to Pro to unlock all features!\n\nGet instant access to '+feat+' and more.')}
+function startResize(e, ov, el){
+  const startX = e.clientX, startY = e.clientY;
+  const origSize = ov.fontSize;
+  function move(ev){
+    const delta = (ev.clientX - startX) + (ev.clientY - startY);
+    ov.fontSize = Math.max(10, Math.min(300, origSize + delta*0.5));
+    el.style.fontSize = ov.fontSize+'px';
+  }
+  function up(){
+    document.removeEventListener('pointermove', move);
+    document.removeEventListener('pointerup', up);
+  }
+  document.addEventListener('pointermove', move);
+  document.addEventListener('pointerup', up);
+}
 
-init();
+function startRotate(e, ov, el){
+  function angleFor(ev){
+    const rect = el.getBoundingClientRect();
+    const cx = rect.left + rect.width/2, cy = rect.top + rect.height/2;
+    return Math.atan2(ev.clientY-cy, ev.clientX-cx) * 180/Math.PI;
+  }
+  function move(ev){
+    ov.rotation = Math.round(angleFor(ev)) + 90;
+    el.style.transform = 'rotate('+ov.rotation+'deg)';
+  }
+  function up(){
+    document.removeEventListener('pointermove', move);
+    document.removeEventListener('pointerup', up);
+  }
+  document.addEventListener('pointermove', move);
+  document.addEventListener('pointerup', up);
+}
+
+function addTextOverlay(){
+  const text = document.getElementById('textInput').value.trim();
+  if(!text){ showMessage('❌ Type some text first', 'error'); return; }
+  const color = document.getElementById('textColor').value;
+  createOverlay('text', text, {color, fontSize:32});
+  showMessage('✅ Text added — drag, resize (⤡), rotate (⟳), or delete (×)');
+}
+
+function addStickerEmoji(emoji){
+  if(!baseImage){ showMessage('❌ Load an image first', 'error'); return; }
+  createOverlay('sticker', emoji, {fontSize:60, color:'#ffffff'});
+  showMessage('✅ Sticker added — drag, resize, rotate, or delete it');
+}
+
+/* ============ EXPORT ============ */
+function exportImage(){
+  if(!baseImage){ showMessage('❌ Load an image first', 'error'); return; }
+  const exp = document.createElement('canvas');
+  exp.width = canvas.width; exp.height = canvas.height;
+  const ex = exp.getContext('2d');
+  ex.drawImage(canvas, 0, 0);
+
+  overlays.forEach(ov=>{
+    ex.save();
+    const cx = ov.x + (document.getElementById('el_'+ov.id)?.offsetWidth||0)/2;
+    const cy = ov.y + (ov.fontSize/2);
+    ex.translate(cx, cy);
+    ex.rotate(ov.rotation * Math.PI/180);
+    ex.font = 'bold '+ov.fontSize+'px Arial';
+    ex.fillStyle = ov.color;
+    ex.textAlign = 'center';
+    ex.textBaseline = 'middle';
+    if(ov.type==='subtitle'){
+      const padding=10;
+      const textW = ex.measureText(ov.content).width;
+      ex.fillStyle='rgba(0,0,0,0.6)';
+      ex.fillRect(-textW/2-padding, -ov.fontSize/2-padding/2, textW+padding*2, ov.fontSize+padding);
+      ex.fillStyle = ov.color;
+    }
+    ex.fillText(ov.content, 0, 0);
+    ex.restore();
+  });
+
+  const dataUrl = exp.toDataURL('image/png');
+  const link = document.createElement('a');
+  link.href = dataUrl;
+  link.download = 'cinemaster-'+Date.now()+'.png';
+  link.click();
+  showMessage('📥 Exported with all text/stickers baked in!');
+}
+
+/* ============ STICKERS ============ */
+const STICKERS = ['😀','😂','❤️','🔥','⭐','🎉','👑','💯','🚀','✨','🎬','🎵'];
+function buildStickerButtons(){
+  const c = document.getElementById('stickerButtons');
+  STICKERS.forEach(e=>{
+    const b = document.createElement('button');
+    b.className='tool-btn'; b.textContent=e;
+    b.onclick = ()=>addStickerEmoji(e);
+    c.appendChild(b);
+  });
+}
+
+/* ============ TEMPLATES ============ */
+const TEMPLATES = [
+  ['Instagram',1080,1080],['TikTok',1080,1920],['YouTube',1920,1080],
+  ['Facebook',1200,628],['Twitter',1024,512],['Pinterest',1000,1500]
+];
+function buildTemplateButtons(){
+  const c = document.getElementById('templateButtons');
+  TEMPLATES.forEach(([name,w,h])=>{
+    const b=document.createElement('button');
+    b.className='tool-btn'; b.textContent=name;
+    b.onclick=()=>setTemplate(w,h);
+    c.appendChild(b);
+  });
+}
+function setTemplate(w,h){
+  const MAX=700;
+  let dw=w,dh=h;
+  if(dw>MAX||dh>MAX){ const s=Math.min(MAX/dw,MAX/dh); dw=Math.round(dw*s); dh=Math.round(dh*s); }
+  canvas.width=dw; canvas.height=dh;
+  document.getElementById('canvasWrap').style.width=dw+'px';
+  document.getElementById('canvasWrap').style.height=dh+'px';
+  if(baseImage) renderBase();
+  showMessage('✅ Template: '+w+'x'+h);
+}
+
+/* ============ MUSIC CATALOG (1000 entries) ============ */
+const GENRES = ['Upbeat','Chill','Epic','Jazz','EDM','Cinematic','Lo-Fi','Ambient','Electronic','Pop','Rock','Hip-Hop','Acoustic','Classical','Reggae','Latin','Funk','Soul','Country','Synthwave'];
+const MOODS = ['Energetic','Calm','Dramatic','Happy','Sad','Romantic','Dark','Bright','Mysterious','Triumphant'];
+let MUSIC_CATALOG = [];
+(function buildCatalog(){
+  let n=1;
+  for(let g=0; g<GENRES.length; g++){
+    for(let m=0; m<MOODS.length; m++){
+      for(let v=1; v<=5; v++){
+        MUSIC_CATALOG.push({id:n, name:`${GENRES[g]} ${MOODS[m]} Track ${v}`, genre:GENRES[g], mood:MOODS[m], duration:(60+ (n%180))+'s'});
+        n++;
+      }
+    }
+  }
+})();
+let favorites = new Set();
+function renderMusicCatalog(){
+  const q = document.getElementById('musicSearch').value.toLowerCase();
+  const filtered = MUSIC_CATALOG.filter(t => t.name.toLowerCase().includes(q) || t.genre.toLowerCase().includes(q) || t.mood.toLowerCase().includes(q));
+  document.getElementById('musicCount').textContent = `Showing ${Math.min(50,filtered.length)} of ${filtered.length} matching tracks`;
+  document.getElementById('musicTotal').textContent = MUSIC_CATALOG.length;
+  const list = document.getElementById('musicList');
+  list.innerHTML='';
+  filtered.slice(0,50).forEach(t=>{
+    const row = document.createElement('div');
+    row.className='catalog-item';
+    row.innerHTML = `<span>${t.name} <small style="color:#999">(${t.duration})</small></span>
+      <span><button onclick="previewTrack(${t.id})">▶ Preview</button><button onclick="toggleFavorite(${t.id}, this)">${favorites.has(t.id)?'★':'☆'}</button></span>`;
+    list.appendChild(row);
+  });
+}
+function previewTrack(id){
+  try{
+    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+    const actx = new AudioCtx();
+    const osc = actx.createOscillator();
+    const gain = actx.createGain();
+    osc.frequency.value = 300 + (id % 400);
+    osc.connect(gain); gain.connect(actx.destination);
+    gain.gain.setValueAtTime(0.15, actx.currentTime);
+    osc.start();
+    osc.stop(actx.currentTime + 0.4);
+  }catch(e){}
+  showMessage('▶ Previewing track #'+id);
+}
+function toggleFavorite(id, btn){
+  if(favorites.has(id)){ favorites.delete(id); btn.textContent='☆'; }
+  else { favorites.add(id); btn.textContent='★'; }
+}
+
+/* ============ SUBTITLE LANGUAGES (60) ============ */
+const LANGUAGES = ['English','Spanish','French','German','Italian','Portuguese','Russian','Chinese','Japanese','Korean','Arabic','Hindi','Bengali','Turkish','Polish','Dutch','Swedish','Norwegian','Danish','Finnish','Greek','Czech','Hungarian','Romanian','Ukrainian','Bulgarian','Croatian','Serbian','Slovenian','Estonian','Latvian','Lithuanian','Catalan','Basque','Welsh','Irish','Icelandic','Hebrew','Urdu','Punjabi','Marathi','Gujarati','Tamil','Telugu','Kannada','Thai','Vietnamese','Indonesian','Filipino','Malay','Swahili','Amharic','Zulu','Afrikaans','Persian','Pashto','Nepali','Sinhala','Khmer','Lao','Mongolian'];
+function buildLanguageSelect(){
+  const sel = document.getElementById('subLang');
+  LANGUAGES.forEach(l=>{
+    const o=document.createElement('option'); o.value=l; o.textContent=l;
+    sel.appendChild(o);
+  });
+}
+function addSubtitleOverlay(){
+  const text = document.getElementById('subText').value.trim();
+  const lang = document.getElementById('subLang').value;
+  if(!text){ showMessage('❌ Type a subtitle first', 'error'); return; }
+  if(!baseImage){ showMessage('❌ Load an image first', 'error'); return; }
+  createOverlay('subtitle', text, {fontSize:24, color:'#ffffff', x: canvas.width/2-100, y: canvas.height-60});
+  showMessage('✅ Subtitle added (' + lang + ') — drag it into place, then Export');
+}
+
+/* ============ AUTH ============ */
+function showPage(name, btn){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById(name).classList.add('active');
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  if(btn) btn.classList.add('active'); else document.querySelector(`.nav-btn[data-page="${name}"]`)?.classList.add('active');
+}
+function openAuthModal(){
+  if(userData){
+    if(confirm('Sign out '+userData.name+'?')){
+      userData=null; localStorage.removeItem('cinemaster_data'); updateUserDisplay(); showMessage('👋 Signed out');
+    }
+    return;
+  }
+  document.getElementById('authModal').classList.add('show');
+}
+function closeAuthModal(){
+  document.getElementById('authModal').classList.remove('show');
+  document.getElementById('loginMessage').innerHTML='';
+  document.getElementById('signupMessage').innerHTML='';
+}
+function switchToSignup(){ document.getElementById('loginSection').style.display='none'; document.getElementById('signupSection').style.display='block'; document.getElementById('authTitle').textContent='Create Account'; }
+function switchToLogin(){ document.getElementById('loginSection').style.display='block'; document.getElementById('signupSection').style.display='none'; document.getElementById('authTitle').textContent='Sign In'; }
+
+function doLogin(){
+  const email=document.getElementById('loginEmail').value.trim();
+  const pass=document.getElementById('loginPassword').value;
+  if(!email||!pass){ document.getElementById('loginMessage').innerHTML='<div class="message error">❌ Fill all fields</div>'; return; }
+  const saved=JSON.parse(localStorage.getItem('cinemaster_data'));
+  if(!saved||saved.email!==email||saved.password!==pass){ document.getElementById('loginMessage').innerHTML='<div class="message error">❌ Invalid credentials</div>'; return; }
+  userData=saved; updateUserDisplay();
+  document.getElementById('loginMessage').innerHTML='<div class="message success">✅ Signed in!</div>';
+  setTimeout(()=>{closeAuthModal(); showMessage('✅ Welcome back, '+userData.name);},1000);
+}
+function doSignup(){
+  const name=document.getElementById('signupName').value.trim();
+  const email=document.getElementById('signupEmail').value.trim();
+  const pass=document.getElementById('signupPassword').value;
+  const conf=document.getElementById('signupConfirm').value;
+  if(!name||!email||!pass||!conf){ document.getElementById('signupMessage').innerHTML='<div class="message error">❌ Fill all fields</div>'; return; }
+  if(pass.length<6){ document.getElementById('signupMessage').innerHTML='<div class="message error">❌ Min 6 characters</div>'; return; }
+  if(pass!==conf){ document.getElementById('signupMessage').innerHTML='<div class="message error">❌ Passwords do not match</div>'; return; }
+  const saved=JSON.parse(localStorage.getItem('cinemaster_data'));
+  if(saved && saved.email===email){ document.getElementById('signupMessage').innerHTML='<div class="message error">❌ Email already exists</div>'; return; }
+  userData={name,email,password:pass,trial:new Date(Date.now()+7*24*60*60*1000).toISOString()};
+  localStorage.setItem('cinemaster_data', JSON.stringify(userData));
+  updateUserDisplay();
+  document.getElementById('signupMessage').innerHTML='<div class="message success">✅ Account created! 7-day trial started!</div>';
+  setTimeout(()=>{closeAuthModal(); showMessage('✅ Welcome, '+userData.name+'! 🎉');},1000);
+}
+function updateUserDisplay(){
+  const span=document.getElementById('userSpan');
+  if(userData){
+    let t='👤 '+userData.name;
+    if(userData.trial){ const days=Math.ceil((new Date(userData.trial)-new Date())/(86400000)); if(days>0) t+=' | ⭐ '+days+' days trial'; }
+    span.textContent=t;
+  } else span.textContent='👤 Guest';
+}
+function showMessage(msg,type){
+  const t=document.createElement('div');
+  t.className='toast '+(type||''); t.textContent=msg;
+  document.body.appendChild(t);
+  setTimeout(()=>t.remove(),3000);
+}
+
+/* ============ INIT ============ */
+buildFilterButtons();
+buildStickerButtons();
+buildTemplateButtons();
+buildLanguageSelect();
+renderMusicCatalog();
+updateUserDisplay();
 </script>
-
 </body>
 </html>
